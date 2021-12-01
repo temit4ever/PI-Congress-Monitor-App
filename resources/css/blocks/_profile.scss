@@ -1,0 +1,208 @@
+/*------------------------------------*\
+    Profile
+\*------------------------------------*/
+
+.profile-image {
+    margin-bottom: 2.5rem;
+    width: 12.6rem;
+    border-radius: 4.3rem;
+}
+
+.profile-link {
+    display: block;
+
+    > img {
+        box-shadow: 0.2rem 0.2rem 0.6rem rgba($c-black, 0);
+        transition: all 0.4s;
+    }
+
+    &:hover {
+        > img {
+            box-shadow: 0.2rem 0.2rem 0.6rem rgba($c-black, 0.42);
+        }
+    }
+}
+
+.profile-grid {
+    @include grid_container(5rem);
+}
+
+.profile-grid-evaluation {
+    padding: 1.5rem 0 3rem;
+    border-top: 0.1rem solid rgba($c-darkest-grey, 0.25);
+}
+
+    .profile-grid__first {
+        @include grid_item(1, 3, 5rem);
+    }
+
+    .profile-grid__second {
+        @include grid_item(2, 3, 5rem);
+    }
+
+    .profile__details {
+        width: 100%;
+        font-size: 1.2rem;
+
+        td {
+            padding-bottom: 2.5rem;
+        }
+    }
+
+    .profile__details-title {
+        color: $c-purple;
+        padding-right: 1.5rem;
+    }
+
+    .profile__rankings {
+         display: flex;  
+    }
+
+    .profile__rankings-current {
+        display: flex;
+        flex-wrap: wrap;
+        padding-right: 1.5rem;
+
+        .profile__rankings-rank {
+            width: 10.1rem;
+        }
+
+        .profile__rankings-grade-icon {
+            width: 5.3rem;
+        }
+    }
+    
+    .profile__rankings-previous {
+        display: flex;
+        flex-wrap: wrap;
+        
+        .profile__rankings-rank {
+            width: 7.2rem;
+        }
+
+        .profile__rankings-grade-icon {
+            width: 4.1rem;
+        }
+    }
+
+    .profile__rankings-rank {
+        margin-right: 1.8rem;
+    }
+
+
+    .profile__rankings-text {
+        margin-top: 1rem;
+        margin-bottom: 0.6rem;
+        color: $c-dark-blue;
+        font-size: 1.1rem;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+
+    .profile__rankings-text--grey {
+        color: $c-darkest-grey;
+    }
+
+    .profile__rankings-text--full {
+        flex-basis: 100%;
+    }
+
+    .profile__ranking-date {
+        flex-basis: 100%;
+        margin-top: 1rem;
+        color: $c-purple;
+        font-size: 1.1rem;
+    }
+
+.profile-chart {
+    margin-top: 2.5rem;
+    width: 100%;
+}
+
+    .profile-chart__labels {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1.5rem;
+    }
+
+    .profile-chart__label {
+        position: relative;
+        width: 0;
+        padding-top: 2rem;
+        font-size: 1.1rem;
+
+        &::before {
+            @include pseudo();
+            bottom: 0;
+            left: 50%;
+            width: 0.1rem;
+            height: 0.8rem;
+            background: $c-darkest-grey;
+        }
+
+        > span {
+            position: absolute;
+            left: 50%;
+            bottom: 1rem;
+            transform: translateX(-50%);
+        }
+
+        &:first-child {
+            left: 1.6rem;
+        }
+
+        &:last-child {
+            right: 1.6rem;
+        }
+    }
+
+    .profile-chart__graph {
+        position: relative;
+        margin-top: 0.3rem;
+        width: 100%;
+        height: 1.2rem;
+        background: #D8D8D8;
+        border-radius: 5rem;
+        overflow: hidden;
+    }
+
+    .profile-chart__bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        max-width: calc(100% - 1.6rem);
+        min-width: 1.6rem;
+        height: 100%;
+        padding-right: 0.4rem;
+        border-radius: 5rem;
+        background: linear-gradient(90deg, #BDC0F2, $c-purple);
+        box-sizing: content-box;
+        transition: all 1.6s cubic-bezier(0.63, 0.03, 0.22, 0.94);
+    }
+
+    .profile-chart__bar--gradient {
+        background: linear-gradient(90deg, #0FDAF8, #3072F7, #FD7F36, #FA5F1F, #BFD92F, #8FC72A);
+    }
+
+    .profile-chart__bar--empty {
+        width: 0% !important;
+    }
+
+    .profile__ranking-title {
+        margin-bottom: 1rem;
+        font-size:  1.8rem;
+
+        > span {
+            color: $c-purple;
+        }
+    }
+
+    .profile__select {
+        margin-top: 1.5rem;
+
+        > select {
+            width: auto;
+        }
+    }

@@ -1,0 +1,16 @@
+/*------------------------------------*\
+    Modal
+\*------------------------------------*/
+
+.modal {
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: rgba($c-black, 0.5);
+    z-index: z('modal');
+}

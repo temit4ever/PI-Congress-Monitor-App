@@ -1,0 +1,67 @@
+/*------------------------------------*\
+    Site Nav
+\*------------------------------------*/
+
+.site-nav {
+    position: sticky;
+}
+
+    .site-nav__item {
+        margin-bottom: 2rem;
+    }
+
+    .site-nav__link {
+        display: block;
+        color: $c-dark-grey;
+        font-size: 1.1rem;
+        text-align: center;
+        text-decoration: none;
+        transition: all 0.4s;
+
+        &.is-active,
+        &:hover {
+            color: $c-dark-blue;
+
+            .site-nav__icon {
+                background: $c-purple;
+                box-shadow: 0.3rem 0.3rem 0.6rem rgba($c-black, 0.16);
+
+                path,
+                rect,
+                line,
+                circle {
+                    fill: $c-lightest;
+
+                    &[fill="none"] {
+                        fill: none;
+                        stroke: $c-lightest;
+                    }
+                }
+            }
+        }
+    }
+
+    .site-nav__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 0.6rem;
+        width: 3.8rem;
+        height: 3.8rem;
+        border: 0.1rem solid $c-dark-grey;
+        border-radius: 1.2rem;
+        transition: all 0.4s;
+
+        path,
+        rect,
+        line,
+        circle {
+            fill: $c-dark-grey;
+            transition: all 0.4s;
+
+            &[fill="none"] {
+                fill: none;
+                stroke: $c-dark-grey;
+            }
+        }
+    }

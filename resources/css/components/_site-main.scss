@@ -1,0 +1,36 @@
+/*------------------------------------*\
+    Site Main
+\*------------------------------------*/
+
+.site-main {
+    position: relative;
+    width: 100%;
+    padding: 4rem 0;
+
+    &::before {
+        @include pseudo();
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 23rem;
+        background: $c-dark-blue;
+        z-index: -1;
+    }
+}
+
+    .site-main__wrapper {
+        margin: 0 auto;
+        padding: 0 13rem 0 3rem;
+        max-width: 105rem;
+    }
+
+    .site-main__header {
+        padding: 0 3rem 3rem;
+        color: $c-lightest;
+
+        h2 {
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+    }

@@ -1,0 +1,35 @@
+/*------------------------------------*\
+    SASS functions
+\*------------------------------------*/
+
+/*------------------------------------*\
+    § Grid column widths
+\*------------------------------------*/
+@function get_grid_column_widths($columns, $numTotalColumns: $numTotalColumns, $gutterWidth: $gutterWidth, $addGutter: false) {
+    $columnsWidth: 100% / $numTotalColumns * $columns;
+    @if($addGutter == true) {
+        $columnsWidth: calc(#{$columnsWidth} - #{$gutterWidth});
+    }
+    @return #{$columnsWidth};
+}
+
+
+/*------------------------------------*\
+    § em
+\*------------------------------------*/
+@function em($target, $context: $base-font-size) {
+    @if $target == 0 { @return 0 }
+    @return $target / $context + 0em;
+}
+
+/*------------------------------------*\
+     § Z index
+\*------------------------------------*/
+@function z($name) {
+    @if index($z-indexes, $name) {
+        @return (length($z-indexes) - index($z-indexes, $name)) + 1;
+    } @else {
+        @warn 'There is no item "#{$name}" in this list; choose one of: #{$z-indexes}';
+        @return null;
+    }
+}

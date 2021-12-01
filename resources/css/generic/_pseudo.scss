@@ -1,0 +1,18 @@
+/*----------------------------------------------*\
+    § Pseudo - default styling for pseuduo states
+\*----------------------------------------------*/
+
+::-moz-selection {
+    color: $c-lightest;
+}
+
+::selection {
+    color: $c-lightest;
+}
+
+:focus {
+    //outline-color: $c-red;
+    outline-style: dashed;
+    outline-width: .1rem;
+    outline-offset: .4rem;
+}

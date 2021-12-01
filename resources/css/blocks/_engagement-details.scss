@@ -1,0 +1,46 @@
+/*------------------------------------*\
+    Engagement Details
+\*------------------------------------*/
+
+.engagement-details {
+    @include grid_container();
+    font-size: 1.6rem;
+}
+
+    .engagement-details__first {
+        @include grid_item(5, 12);
+    }
+
+    .engagement-details__second {
+        @include grid_item(7, 12);
+    }
+
+    .engagement-details__table {
+        min-width: 70%;
+        font-size: 1.2rem;
+
+        td {
+            padding-bottom: 1.3rem;
+        }
+    }
+
+    .engagement-details__table-title {
+        padding-right: 3rem;
+        color: $c-darkest-grey;
+    }
+
+    .engagement-details__small {
+        color: $c-darkest-grey;
+        font-size: 1.2rem;
+    }
+
+    .engagement-details__meeting-link {
+        display: inline-block;
+        margin-top: 4.5rem;
+    }
+
+.meeting-icon {
+    display: inline-block;
+    margin-right: 0.8rem;
+    vertical-align: middle;
+}

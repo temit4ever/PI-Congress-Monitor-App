@@ -1,0 +1,23 @@
+/*------------------------------------*\
+    Custom semantic media queries
+\*------------------------------------*/
+
+/*----------------------------------------------------*\
+    https://github.com/MoOx/postcss-cssnext/issues/253
+    We can't use variables in media
+    queries so using a sass variable to
+    share between :root and custom media queries
+    @see variables/responsive.scss
+\*----------------------------------------------------*/
+@each $breakPoint, $width in $breakPoints {
+    @custom-media --#{$breakPoint} (width >= #{$width});
+    @custom-media --#{$breakPoint}-max (width < #{$width});
+}
+
+
+@each $verticalBreakPoint, $height in $verticalBreakPoints {
+    @custom-media --#{$verticalBreakPoint} (height >= #{$height});
+    @custom-media --#{$verticalBreakPoint}-max (height < #{$height});
+}
+
+@custom-media --retinaDevice (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi);

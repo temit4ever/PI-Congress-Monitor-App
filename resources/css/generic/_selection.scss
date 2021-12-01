@@ -1,0 +1,13 @@
+/*------------------------------------*\
+    Selection
+\*------------------------------------*/
+
+::-moz-selection {
+    color: $c-lightest;
+    background: $c-purple;
+}
+
+::selection {
+    color: $c-lightest;
+    background: $c-purple;
+}

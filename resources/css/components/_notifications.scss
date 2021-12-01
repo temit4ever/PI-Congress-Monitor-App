@@ -1,0 +1,61 @@
+/*------------------------------------*\
+    Notifications
+\*------------------------------------*/
+
+.notifications-header {
+    position: absolute;
+    top: 2.5rem;
+    right: 5.5rem;
+}
+    
+    .notifications-header__link {
+        display: block;
+        color: $c-lightest;
+        font-size: 1.1rem;
+        text-align: center;
+        text-decoration: none;
+
+        &:hover {
+            .notifications-header__icon {
+                background: $c-lightest;
+
+                path,
+                rect,
+                line,
+                circle {
+                    fill: $c-purple;
+                }
+            }
+        }
+    }
+
+    .notifications-header__icon {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 0.6rem;
+        width: 3.8rem;
+        height: 3.8rem;
+        border: 0.1rem solid $c-dark-grey;
+        border-radius: 1.2rem;
+        transition: all 0.4s;
+
+        path,
+        rect,
+        line,
+        circle {
+            fill: $c-dark-grey;
+            transition: all 0.4s;
+        }
+    }
+
+    .notification-header__alert {
+        position: absolute;
+        top: -0.3rem;
+        right: -0.3rem;
+        width: 1.1rem;
+        height: 1.1rem;
+        border-radius: 1.1rem;
+        background: $c-red;
+    }

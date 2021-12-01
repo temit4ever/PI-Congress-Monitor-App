@@ -1,0 +1,67 @@
+@use "sass:math";
+
+/*------------------------------------*\
+    SASS mixins
+\*------------------------------------*/
+
+/*------------------------------------*\
+     § Input placeholder
+\*------------------------------------*/
+
+@mixin input-placeholder {
+    &.placeholder { @content; }
+    &:-moz-placeholder { @content; }
+    &::-moz-placeholder { @content; }
+    &:-ms-input-placeholder { @content; }
+    &::-webkit-input-placeholder { @content; }
+}
+
+/*------------------------------------*\
+     § Pseudo
+\*------------------------------------*/
+
+@mixin pseudo($display: block, $pos: absolute, $content: ''){
+    content: $content;
+    display: $display;
+    position: $pos;
+}
+
+/*------------------------------------*\
+     § Responsive Ratio
+\*------------------------------------*/
+
+@mixin responsive-ratio($x,$y, $pseudo: false) {
+    $padding: unquote( ( $y / $x ) * 100 + '%' );
+    @if $pseudo {
+        &:before {
+            @include pseudo($pos: relative);
+            width: 100%;
+            padding-top: $padding;
+        }
+    } @else {
+        padding-top: $padding;
+    }
+}
+
+
+/*------------------------------------*\
+    § Grid container
+\*------------------------------------*/
+
+@mixin grid_container($gutterWidth: $gutterWidth) {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -#{$gutterWidth};
+}
+
+/*------------------------------------*\
+    § Grid item
+\*------------------------------------*/
+
+@mixin grid_item($columns, $numTotalColumns: $numTotalColumns, $gutterWidth: $gutterWidth) {
+    $columnsWidth: math.div(100%, $numTotalColumns) * $columns;
+    $width: calc(#{$columnsWidth} - #{$gutterWidth});
+    flex-basis: $width;
+    max-width: $width;
+    margin-left: $gutterWidth;
+}

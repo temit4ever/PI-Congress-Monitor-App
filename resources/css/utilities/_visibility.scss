@@ -1,0 +1,30 @@
+/*------------------------------------*\
+	§ visuallyhidden
+\*------------------------------------*/
+
+.visuallyhidden {
+    border: 0;
+	clip: rect(0 0 0 0);
+	height: .1rem;
+	margin: -.1rem;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: .1rem;
+}
+
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+	clip: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	position: static;
+	width: auto;
+}
+
+
+.invisible {
+	visibility: hidden;
+}

@@ -1,0 +1,21 @@
+/*------------------------------------*\
+    Responsive variables
+\*------------------------------------*/
+
+/*----------------------------------------------------*\
+    https://github.com/MoOx/postcss-cssnext/issues/253
+    We can't use custom props in media
+    queries so using a sass variable to
+    share between :root and custom media queries
+\*----------------------------------------------------*/
+$breakPoints: (
+    small    : (48em * .625),
+    medium   : (76.8em * .625),
+    large    : (102.4em * .625),
+);
+
+$verticalBreakPoints: (
+    verticalSmall    : (60em * .625),
+    verticalMedium   : (70em * .625),
+    verticalLarge    : (80em * .625)
+);

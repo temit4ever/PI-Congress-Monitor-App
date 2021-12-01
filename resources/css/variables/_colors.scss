@@ -1,0 +1,26 @@
+/*------------------------------------*\
+    Color variables
+\*------------------------------------*/
+
+$c-black: #000000;
+$c-lightest: #ffffff;
+$c-darkest: #1E1E1E;
+
+$c-cream: #F4EFEF;
+$c-grey: #F0F3F5;
+$c-dark-grey: #919191;
+$c-darkest-grey: #707070;
+
+$c-dark-blue: #090745;
+$c-red: #F6455B;
+$c-green: #CDEA2A;
+$c-purple: #6940F2;
+$c-light-purple: #D6CAFC;
+
+.c-purple {
+    color: $c-purple;
+}
+
+.c-darkest-grey {
+    color: $c-darkest-grey;
+}

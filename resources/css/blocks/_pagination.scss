@@ -1,0 +1,82 @@
+/*------------------------------------*\
+    Pagination
+\*------------------------------------*/
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .pagination__item {
+        padding: 0 0.25rem;
+    }
+
+    .pagination__link {
+        display: block;
+        position: relative;
+        width: 1.6rem;
+        height: 1.5rem;
+        text-indent: -999rem;
+
+        &::before {
+            @include pseudo();
+            width: 100%;
+            height: 100%;
+            background: no-repeat center;
+        }
+
+        &[disabled] {
+            opacity: 0.5;
+        }
+    }
+
+    .pagination__first {
+        &::before {
+            background-image: url(../../images/pagination-first.svg);
+        }
+    }
+
+    .pagination__prev {
+        &::before {
+            background-image: url(../../images/pagination-prev.svg);
+        }
+    }
+
+    .pagination__next {
+        &::before {
+            background-image: url(../../images/pagination-next.svg);
+        }
+    }
+
+    .pagination__last {
+        &::before {
+            background-image: url(../../images/pagination-last.svg);
+        }
+    }
+
+    .pagination__item--current {
+        padding: 0 1rem;
+        font-size: 1.4rem;
+
+        > span {
+            display: inline-block;
+            position: relative;
+            margin-right: 0.8rem;
+            color: $c-lightest;
+            z-index: 1;
+
+            &::before {
+                @include pseudo();
+                top: 50%;
+                left: 50%;
+                margin-top: -1rem;
+                margin-left: -1rem;
+                width: 2rem;
+                height: 2rem;
+                background: $c-purple;
+                border-radius: 5rem;
+                z-index: -1;
+            }
+        }
+    }

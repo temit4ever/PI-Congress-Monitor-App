@@ -1,0 +1,391 @@
+@import 'vue3-timepicker/dist/VueTimepicker.css';
+
+/*------------------------------------*\
+    Form
+\*------------------------------------*/
+
+.form {
+    width: 100%;
+    font-size: 1.2rem;
+}
+
+.form--max-width {
+    max-width: 40.6rem;
+}
+
+.form-split {
+    @include grid_container(1.4rem);
+}
+
+    .form-split__item {
+        @include grid_item(1, 2, 1.4rem);
+    }
+
+    .form__item {
+        position: relative;
+        margin-bottom: 2.6rem;
+    }
+
+    .form__item--padding {
+        padding-left: 10rem;
+
+        .form__inline-item {
+            &:not(:last-child) {
+                margin-right: 5rem;
+            }
+        }
+    }
+
+    .form__item-heading {
+        display: block;
+        margin-bottom: 1.5rem;
+        font-size: 1.6rem;
+    }
+
+    .form__item-show-password {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 5.7rem;
+        height: 100%;
+        background: url(../../images/icon-show-password.svg) no-repeat center;
+        cursor: pointer;
+        overflow: hidden;
+        text-indent: -999rem;
+    }
+
+    .form__inline {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .form__inline-item {
+        &:not(:last-child) {
+            margin-right: 1.5rem;
+        }
+    }
+
+    .form__required {
+        position: relative;
+
+        &::before {
+            @include pseudo($content: '*');
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            color: $c-red;
+            font-size: 1.2rem;
+            z-index: 1;
+        }
+    }
+
+    .form__upload {
+        display: block;
+        width: 11.8rem;
+        font-size: 1.2rem;
+        text-align: center;
+
+        > input[type="file"] {
+            display: none;
+        }
+
+        &::before {
+            @include pseudo($pos: relative);
+            width: 11.8rem;
+            height: 11.8rem;
+            margin-bottom: 1rem;
+            background: url(../../images/upload-icon.svg) no-repeat center;
+        }
+    }
+
+    .form__search-results {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 1.5rem;
+
+        > li {
+            margin-right: 1.5rem;
+        }
+    }
+
+    .search-result__item {
+        position: relative;
+        margin-top: 1.5rem;
+        padding: 1rem 1rem 1rem 2.7rem;
+        border-radius: 5rem;
+        box-shadow: 0.2rem 0.2rem 0.6rem rgba($c-black, 0.16);
+
+        &::before,
+        &::after {
+            @include pseudo();
+            top: 50%;
+            left: 0.9rem;
+            margin-top: -0.1rem;
+            width: 1rem;
+            height: 0.2rem;
+            background: $c-purple;
+        }
+
+        &::before {
+            transform: rotate(-45deg);
+        }
+
+        &::after {
+            transform: rotate(45deg);
+        }
+    }
+
+label {
+    cursor: pointer;
+}
+
+input:not([type="radio"]):not([type="checkbox"]),
+select,
+textarea {
+    width: 100%;
+    height: auto;
+    padding: 1.3rem 2.5rem;
+    border: 0.1rem solid #F0F0F0;
+    background-color: #F6F6F6;
+    border-radius: 5rem;
+    outline: 0;
+    font-size: 1.2rem;
+    font-family: $f-sans;
+    transition: all 0.4s;
+    
+    &:focus {
+        border: 0.1rem solid #F0F0F0;
+        background-color: $c-lightest;
+        box-shadow: 0rem 0rem 0.6rem rgba($c-black, 0.16);
+        outline: 0;
+    }
+}
+
+input:not([type="radio"]):not([type="checkbox"]) {
+    &[type="search"] {
+        padding-left: 4.7rem;
+        background-image: url(../../images/search-icon.svg);
+        background-position: 1.7rem 50%;
+        background-repeat: no-repeat;
+    }
+}
+
+textarea {
+    border-radius: 1rem;
+    height: 15rem;
+}
+
+select {
+    padding-right: 4rem;
+    background: url(../../images/select-arrow.svg) no-repeat center right 2rem #F6F6F6;
+    cursor: pointer;
+
+    &:focus {
+        background-color: $c-lightest;
+    }
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 1rem;
+    border: 0.1rem solid #D8D8D8;
+    background: none;
+    box-shadow: 0rem 0rem 0rem 0.2rem $c-lightest inset, 0rem 0rem 0rem 0.6rem #D8D8D8 inset;
+    outline: 0;
+    cursor: pointer;
+    transition: all 0.4s;
+    appearance: none;
+
+    &:hover,
+    &:focus {
+        border-color: $c-purple;
+    }
+    
+    &:focus {
+        outline: 0;
+        box-shadow: 0rem 0rem 0rem 0.2rem $c-lightest inset, 0rem 0rem 0rem 0.6rem #D8D8D8 inset;
+        background: none;
+    }
+    
+    &:checked {
+        background: none;
+        box-shadow: 0rem 0rem 0rem 0.2rem $c-lightest inset, 0rem 0rem 0rem 0.6rem $c-purple inset;
+    }
+
+    &,
+    &:checked:hover,
+    &:checked:focus {
+        background: none;
+        border: 0.1rem solid #D8D8D8;
+        outline: 0;
+    }
+}
+
+input[type="radio"] {
+    border-radius: 5rem;
+}
+
+.search-dropdown {
+    position: relative;
+
+    &:focus-within {
+        .search-dropdown__results {
+            display: block;
+        }
+    }
+}
+
+    .search-dropdown__results {
+        position: absolute;
+        display: none;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        max-height: 15rem;
+        background: $c-lightest;
+        z-index: 1;
+        box-shadow: 0.3rem 0.3rem 0.6rem rgba($c-black, 0.16);
+        border-radius: 1.5rem;
+        padding: 1rem;
+        overflow: auto;
+
+        &.is-active {
+            display: block;
+        }
+    }
+
+    .search-dropdown__item {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 1rem 0.5rem;
+
+        &:hover {
+            background: $c-grey;
+        }
+    }
+
+.select-white {
+    background-color: $c-lightest;
+    border-color: $c-darkest-grey;
+}
+
+.vue__time-picker {
+    width: 100%;
+    
+    .dropdown {
+        top: 100%;
+        margin-top: 1rem;
+        width: 100%;
+        height: 20rem;
+        border-radius: 1rem;
+
+        .select-list {
+            width: 100%;
+            height: 20rem;
+        }
+
+    }
+    &.is-closed {
+        .dropdown {
+            display: none !important;
+        }
+    }
+}
+
+.v3dp__datepicker {
+    .v3dp__popout.v3dp__popout {
+        margin-top: 2rem;
+        width: 100%;
+        box-shadow: 0.5rem 0rem 1rem -0.6rem rgba($c-black, 0.16);
+    }
+
+    .v3dp__heading__button {
+        order: 1;
+    }
+
+    .v3dp__heading__button.v3dp__heading__button {
+        background: $c-grey;
+        width: 2.3rem;
+        height: 2.3rem;
+        align-self: center;
+        margin-left: 1rem;
+        border-radius: 0.5rem;
+    }
+
+    .v3dp__heading__center {
+        padding-left: 1rem;
+        order: 0;
+        text-align: left;
+    }
+
+    .v3dp__heading.v3dp__heading {
+        padding: 0 2rem;
+        font-size: 1.4rem;
+        font-weight: normal;
+    }
+
+    .v3dp__divider {
+        display: none;
+    }
+
+    .v3dp__subheading.v3dp__subheading {
+        font-size: 1.4rem;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .v3dp__elements.v3dp__elements {
+        button {
+            padding: 1rem;
+            font-size: 1.4rem;
+
+            span {
+                display: inline-block;
+                position: relative;
+                margin: 0 auto;
+                padding: 0.5rem;
+                height: auto;
+                min-width: 3.5rem;
+                border-radius: 5rem;
+                line-height: 1;
+
+                &::before {
+                    @include pseudo();
+                    top: 50%;
+                    left: 0;
+                    width: 100%;
+                    height: 0;
+                    padding-bottom: 100%;
+                    border-radius: 10rem;
+                    z-index: -1;
+                    transform: translateY(-50%);
+                }
+            }
+
+            &.selected {
+                span {
+                    background: none;
+
+                    &::before {
+                        background: $c-purple;
+                    }
+                }
+            }
+
+            &:not(:disabled) {
+                &:hover {
+                    span {
+                        background: none;
+
+                        &::before {
+                            background: $c-purple;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

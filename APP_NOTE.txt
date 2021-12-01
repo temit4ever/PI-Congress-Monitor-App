@@ -1,0 +1,122 @@
+v1
+===================
+Initial Development
+
+Laravel install
+------------------------------
+<Version 8.0>
+
+Packages
+------------------------------
+Jetstream : Provides authentication scaffolding.
+<Version 2.2>
+
+Jetstrap: Convert the tailwind css to bootstrap
+<Version 2.4>
+
+Admin-lte: Provide the Admin dashboard Scaffolding
+<Version 3.0>
+
+Intervention Image: Provide assisitance for image manipulation
+<Version 2.x>
+
+Composer Installed Modules
+------------------------------
+<Version 2.1.3>
+
+Laravel : /vendor/laravel/
+Inertia-js : /vendor/inertiajs/
+JetStrap : /vendor/nascent-africa/
+Image-intervention : /vendor/intervention/
+
+Installation Instructions
+-----------------------------
+https://cygnusagency.atlassian.net/wiki/spaces/CYGWIKI/pages/2164228100/Setup+For+A+New+Laravel+Project
+
+Installing composer
+---------------------------------------------------------------
+Use this link below and follow the process in order to install composer https://getcomposer.org/download/
+It’s important to install composer globally so, it can be access on any directory
+After successful installation you can type the below in the command line:
+composer -v
+And you will be presented with the composer version and some other bits
+
+Installing Laravel
+-------------------------------------------
+
+- Create a new folder called project in the MAMP / MAMP PRO htdoc / Sites
+- Cd to the directory you want to create your new laravel (MAMP / MAMP PRO htdoc / site drirectory project and following the command below
+- Open the terminal and make sure you are on the home directory
+- cd Sites
+- composer create-project laravel/laravel lead
+
+Set-up MAMP PRO As the dev local Server
+---------------------------------------------------
+- Open up MAMP PRO application
+- Click on the plus icon to add new host (Supply the Name(projectname.local), and point the Document root to where your application reside and change default port number)
+- Click the SSL tab and upload your Certificate file and Certificate key file (Ask Dan for those certificates.)
+- Then visit the browser and type the register host name (http://lead.local). The screenshot below shows that the install Laravel application is working.
+
+Configure The Host (MAC)
+----------------------------------------------------
+
+By default MAMP PRO should have configure the host based on the host name specified. If this is done for you there is no need to proceed with the next step.
+
+- Open the terminal and follow the process below.
+- sudo vi /etc/hosts
+- type i to enter edit mode
+- type 127.0.0.1 yourhostname.local
+- type  :wq! to save and quit
+
+Then visit the browser and type the register host name (http://lead.local). You should see the laravel homepage.
+
+Configure database
+--------------------------------------------------
+Open the .env file and change few settings like the database name, Username, and Password. This will be the credential to use to login into the database.
+At this point we need to go to the project page and get the needed information(https://cygnusagency.atlassian.net/wiki/spaces/CD/pages/2192080897/New+CygStage4+185.132.43.83+cygstage4.cygserver.co.uk).
+Set up your .env file using those new stage details(database name, Username, and Password).
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=root
+
+Add Laravel's basic auth scaffolding
+----------------------------------------------------
+- composer require laravel/jetstream
+- php artisan jetstream:install inertia
+- npm install
+- npm run dev
+- php artisan migrate
+
+Add Jet strap that convert all the tailwind css to Bootstrap
+------------------------------------------------------------
+- composer require nascent-africa/jetstrap --dev
+- php artisan jetstrap:swap breeze-inertia
+- npm run install
+- npm run dev
+
+Add Admin lte that generate a dashboard scaffold
+------------------------------------------------
+- npm install admin-lte --save
+- Go to your larval app folder and location the bootstrap.js file (resource/js/bootstrap.js) and past the code below at the top
+require('admin-lte’);
+
+- Also Go to your larval app folder and location the app.scss.js file (resource/js/bootstrap.js) and past the code below at the top
+@import '~admin-lte/dist/css/adminlte.css';
+- npm run watch
+
+Installing Image Intervention package to handle image manipulation
+------------------------------------------------------------------
+php composer.phar require intervention/image
+
+In the providers array add the service providers for this package (config/app.php).
+- Intervention\Image\ImageServiceProvider::class
+
+Add the facade of this package to the aliases array (config/app.php)
+- 'Image' => Intervention\Image\Facades\Image::class
+
+To use it just past the below line at the top of the controller/ model you want to work with
+- Use Intervention\Image\Facades\Image;

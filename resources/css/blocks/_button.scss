@@ -1,0 +1,113 @@
+/*------------------------------------*\
+    Button
+\*------------------------------------*/
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 3rem;
+    border: 0.2rem solid $c-purple;
+    background: $c-lightest;
+    border-radius: 10rem;
+    color: $c-dark-blue;
+    min-width: 12rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.4s;
+    
+    &:not(:last-child) {
+        margin-right: 1.5rem;
+    }
+
+    &:hover {
+        background: $c-purple;
+        color: $c-lightest;
+
+        .button__icon {
+            path,
+            rect,
+            line,
+            circle {
+                fill: $c-lightest;
+
+                &[fill="none"] {
+                    fill: none;
+                    stroke: $c-lightest;
+                }
+
+                &[stroke*="#"][fill*="#"] {
+                    fill: $c-lightest;
+                    stroke: $c-lightest;
+                }
+            }
+        }
+    }
+}
+
+.button--green {
+    border-color: $c-green;
+
+    &:hover {
+        background: $c-green;
+        color: $c-dark-blue;
+
+        .button__icon {
+            path,
+            rect,
+            line,
+            circle {
+                fill: $c-dark-blue;
+
+                &[fill="none"] {
+                    fill: none;
+                    stroke: $c-dark-blue;
+                }
+
+                &[stroke*="#"][fill*="#"] {
+                    fill: $c-dark-blue;
+                    stroke: $c-dark-blue;
+                }
+            }
+        }
+    }
+}
+
+.button--red {
+    border-color: $c-red;
+
+    &:hover {
+        background: $c-red;
+    }
+}
+
+.button--blue {
+    border-color: $c-dark-blue;
+
+    &:hover {
+        background: $c-dark-blue;
+    }
+}
+
+.button--small {
+    padding: 1rem;
+    min-width: 9rem;
+}
+
+.button__icon {
+    margin-right: 1rem;
+
+    path,
+    rect,
+    line,
+    circle {
+        transition: all 0.4s;
+    }
+}
+
+.buttons-group {
+    display: flex;
+    flex-shrink: 0;
+}

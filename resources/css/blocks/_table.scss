@@ -1,0 +1,90 @@
+/*------------------------------------*\
+    Table
+\*------------------------------------*/
+
+.table {
+    width: 100%;
+    font-size: 1.2rem;
+
+    th {
+        padding: 1rem 1.5rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    tr:not(.table__spacer) {
+        border-radius: 1.5rem;
+        box-shadow: 0.2rem 0.2rem 0.6rem rgba($c-black, 0.16);
+    }
+
+    td {
+        padding: 1rem 1.5rem;
+    }
+}
+
+.table-border-container {
+    border: 0.1rem solid $c-darkest-grey;
+    border-radius: 0.9rem;
+}
+
+.table--border {
+
+    td {
+        border-top: 0.1rem solid $c-darkest-grey;
+    }
+
+    tr:not(.table__spacer) {
+        box-shadow: none;
+    }
+}
+
+    .table__spacer {
+        td {
+            padding: 0.5rem;
+        }
+    }
+
+    .table__buttons {
+        width: 0;
+    }
+
+    .table__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-right: 1rem;
+        width: 4.7rem;
+        height: 4.7rem;
+        background: $c-light-purple;
+        border-radius: 1.2rem;
+        vertical-align: middle;
+
+        svg {
+            display: block;
+            width: 2.2rem;
+            height: auto;
+        }
+
+        path,
+        rect,
+        line,
+        circle {
+            fill: $c-lightest;
+
+            &[fill="none"] {
+                fill: none;
+                stroke: $c-lightest;
+            }
+
+            &[stroke*="#"][fill*="#"] {
+                fill: $c-lightest;
+                stroke: $c-lightest;
+            }
+        }
+    }
+
+    .table__cell-with-icon {
+        display: flex;
+        align-items: center;
+    }

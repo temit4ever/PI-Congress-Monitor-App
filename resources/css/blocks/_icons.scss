@@ -1,0 +1,22 @@
+/*------------------------------------*\
+    Icons
+\*------------------------------------*/
+
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    width: 10rem;
+    height: 10rem;
+    box-shadow: 0.3rem 0.3rem 0.6rem rgba($c-black, 0.16);
+    border-radius: 3rem;
+}
+
+.icon--green-gradient {
+    background: linear-gradient(90deg, #CDEA33, #8FC72A);
+}
+
+.icon--red {
+    background: $c-red;
+}
