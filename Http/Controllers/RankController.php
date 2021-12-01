@@ -73,8 +73,8 @@ class RankController extends Controller
           $rank->understanding_data = 'General';
           $set_value[] = 1;
           break;
-        case 'understanding_data_basic' :
-          $rank->understanding_data = 'Basic';
+        case 'understanding_data_foundation' :
+          $rank->understanding_data = 'Foundation';
           $set_value[] = 2;
           break;
         case 'understand_data_advance' :
@@ -105,8 +105,8 @@ class RankController extends Controller
 
       // Get input value of the performance/delivery dropdown fields
       switch ($input_3) {
-        case 'performance_delivery_basic' :
-          $rank->performance_delivery = 'Basic';
+        case 'performance_delivery_foundation' :
+          $rank->performance_delivery = 'Foundation';
           $set_value[] = 1;
           break;
         case 'performance_delivery_general' :
@@ -187,8 +187,8 @@ class RankController extends Controller
           $rank->understanding_data = 'General';
           $set_value[] = 1;
           break;
-        case 'understanding_data_basic' :
-          $rank->understanding_data = 'Basic';
+        case 'understanding_data_foundation' :
+          $rank->understanding_data = 'Foundation';
           $set_value[] = 2;
           break;
         case 'understand_data_advance' :
@@ -219,8 +219,8 @@ class RankController extends Controller
 
       // Get input value of the performance/delivery dropdown fields
       switch ($input_3) {
-        case 'performance_delivery_basic' :
-          $rank->performance_delivery = 'Basic';
+        case 'performance_delivery_foundation' :
+          $rank->performance_delivery = 'Foundation';
           $set_value[] = 1;
           break;
         case 'performance_delivery_general' :

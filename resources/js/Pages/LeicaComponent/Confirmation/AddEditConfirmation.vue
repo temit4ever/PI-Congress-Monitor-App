@@ -1,5 +1,5 @@
 <template>
-  <app-layout>
+  <app-layout :auth-user="user" :referer="referer">
   <div class="card card--narrowest card--center">
     <div class="card__inner">
                 <span class="icon icon--green-gradient">
@@ -8,18 +8,18 @@
       <h2 class="title">
         Complete
       </h2>
-      <div class="card__content" v-if="path.includes('index') || path.includes('publication/create')">
+      <div class="card__content" v-if="path.includes('index')">
         <p>
-          A new {{ name }} has been added
+          A new {{ name }} has been {{lastText}}
         </p>
       </div>
       <div class="card__content" v-else>
         <p>
-          A new {{ name }} has been edited
+          {{ name }} has been edited
         </p>
       </div>
-      <a :href="route(`${redirect}`)" class="button">
-        Return
+      <a :href="route().current('engagement.show') ? route('calendar.index') : route(`${redirect}`)" class="button">
+          Return
       </a>
     </div>
   </div>
@@ -34,7 +34,10 @@ export default {
   props: {
     path: String,
     name: String,
-    redirect: String
+    redirect: String,
+    lastText: String,
+    user: Object,
+    referer: String
   },
 
 }

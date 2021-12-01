@@ -1,11 +1,11 @@
 <template>
-  <app-layout title="Users">
+  <app-layout title="Users" :auth-user="user">
     <template #header>
       <h2>
         LEAD Dashboard
       </h2>
       <p>
-        Omnis dio. Lorectatur? Luptatquibus parum renditi…
+        Add / Edit / Delete AstraZeneca users
       </p>
     </template>
 
@@ -28,6 +28,9 @@ export default {
   components: {
     DeleteConfirmation,
     AppLayout
+  },
+  props: {
+    user:Object,
   }
 }
 </script>

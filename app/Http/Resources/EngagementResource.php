@@ -27,7 +27,7 @@ class EngagementResource extends JsonResource
         'city' => $this->city,
         'post_code' => $this->post_code,
         'county_state' => $this->country_state,
-        'congress_link' => $this->congress_link,
+        'congress' => $this->congress,
         'description' => $this->description,
         'calendar_date' => $this->calendar_date,
         'start_time' => $this->start_time,

@@ -14,7 +14,7 @@
         height: 100%;
         max-height: 100vh;
     }
-    
+
     .site-sidebar__main {
         display: flex;
         width: 10rem;
@@ -23,9 +23,9 @@
         border-right: 0.1rem solid $c-cream;
         height: 100%;
     }
-    
+
     .site-sidebar__secondary {
-        width: 16rem;
+        width: 19rem;
         padding: 8rem 0rem 3.4rem;
         border-right: 0.1rem solid $c-cream;
     }
@@ -72,9 +72,19 @@
     }
 
     .site-sidebar__user-image {
+        position: relative;
         width: 4.7rem;
+        height: 4.7rem;
         margin: 0 auto 0.5rem;
         border-radius: 1.2rem;
+        overflow: hidden;
+
+        > img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
     }
 
     .site-sidebar__user-status {
@@ -99,7 +109,7 @@
         margin-top: 1rem;
         border-top: 0.1rem solid $c-cream;
     }
-    
+
     .site-sidebar__secondary-link {
         display: flex;
         align-items: center;
@@ -108,6 +118,7 @@
         border-bottom: 0.1rem solid $c-cream;
         font-size: 1.1rem;
         text-decoration: none;
+        outline: none;
         transition: all 0.4s;
 
         &.is-active,

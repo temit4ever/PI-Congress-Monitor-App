@@ -1,17 +1,19 @@
 <template>
-  <app-layout title="User">
+  <app-layout title="User" :auth-user="user">
     <template #header>
       <h2>
         User
       </h2>
       <p>
-        Omnis dio. Lorectatur? Luptatquibus parum renditi…
+        Add / Edit / Delete AstraZeneca users
       </p>
     </template>
     <AddEditConfirmation
       :path="path"
       :name="name"
       :redirect="redirect"
+      :last-text="last_text"
+      :user="user"
     />
     </app-layout>
 </template>
@@ -22,11 +24,16 @@ import AddEditConfirmation from "../Confirmation/AddEditConfirmation";
 export default {
   name: "UserAddEditConfirmation.vue",
   components: {AddEditConfirmation, AppLayout},
-  data() {
+  props: {
+    user: Object,
+    updated_id: String
+  },
+  data(props) {
     return {
       path: route().current(),
       redirect: 'user.index',
-      name: 'user'
+      name: 'User',
+      last_text: ' added'
     }
   }
 }

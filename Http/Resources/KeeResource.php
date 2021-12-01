@@ -22,7 +22,7 @@ class KeeResource extends JsonResource
         'firstname' => $this->firstname,
         'lastname' => $this->lastname,
         'email' => $this->email,
-        'office_name' => $this->office_name,
+        'place_of_work' => $this->place_of_work,
         'city' => $this->city,
         'country_id' => $this->country,
         'avatar' => $this->kee_photo_path,

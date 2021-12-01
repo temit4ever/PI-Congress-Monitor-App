@@ -14,8 +14,10 @@ class CreateEngagementKeeTable extends Migration
     public function up()
     {
         Schema::create('engagement_kee', function (Blueprint $table) {
+          $table->increments('id');
           $table->integer('engagement_id')->unsigned();
           $table->integer('kee_id')->unsigned();
+          $table->softDeletes();
           $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateEngagementKeeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('engagement_kees');
+        Schema::dropIfExists('engagement_kee');
     }
 }

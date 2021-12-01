@@ -2,7 +2,7 @@
 <!--  <div class="card card&#45;&#45;narrowest card&#45;&#45;center delete-user">
     <div class="card__inner">
                 <span class="icon icon&#45;&#45;red">
-                    <Icon icon="trash-large" />
+                    <Icons icon="trash-large" />
                 </span>
       <h2 class="title">
 
@@ -36,7 +36,7 @@
     </danger-button>
   </div>
   <transition name="fade">
-    <div class="modal" ref="my-modal" v-if="modalActive === true" v-bind:class="{'is-active': modalActive}">
+    <div class="modal" ref="my-modal" v-if="modalActive" v-bind:class="{'is-active': modalActive}">
       <div class="modal__inner">
         <div class="card card--narrowest card--center">
           <div class="card__inner">
@@ -84,6 +84,7 @@ export default {
     message: String,
     deletePath: String,
     cancelPath: String,
+    modalActive: Boolean
   },
   data() {
     return {
@@ -93,7 +94,7 @@ export default {
   methods: {
     showModal() {
       this.modalActive = true
-      this.$refs['my-modal'].show()
+      //this.$refs['my-modal'].show()
 
     },
     hideModal() {

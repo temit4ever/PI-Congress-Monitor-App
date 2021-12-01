@@ -127,6 +127,47 @@
         <svg v-else-if="icon == 'trash-large'" xmlns="http://www.w3.org/2000/svg" width="39.436" height="44.279" viewBox="0 0 39.436 44.279">
             <path id="Path_32" data-name="Path 32" d="M-424.4,517.89a1.038,1.038,0,0,1,.985.709l1.839,5.517h9.976a1.038,1.038,0,0,1,1.038,1.038,1.038,1.038,0,0,1-1.038,1.038h-1.816l-3.031,35.029a1.037,1.037,0,0,1-1.034.948h-25.6a1.038,1.038,0,0,1-1.034-.948l-3.031-35.029h-1.816A1.038,1.038,0,0,1-450,525.155a1.038,1.038,0,0,1,1.038-1.038h9.976l1.839-5.517a1.038,1.038,0,0,1,.985-.709Zm8.9,8.3h-29.563l2.934,33.9h23.7Zm-14.675,5.194a1.06,1.06,0,0,1,.932,1.033v21.448a1.038,1.038,0,0,1-1.038,1.038,1.038,1.038,0,0,1-1.038-1.038V532.419a1.055,1.055,0,0,1,1.038-1.038Zm7.811,0h.106a1.037,1.037,0,0,1,.969,1.1l-1.384,21.448a1.037,1.037,0,0,1-1.1.969,1.037,1.037,0,0,1-.969-1.1l1.384-21.448a1.036,1.036,0,0,1,1-.97Zm-15.834,0a1.059,1.059,0,0,1,1,.97l1.384,21.448a1.038,1.038,0,0,1-.969,1.1,1.037,1.037,0,0,1-1.1-.969l-1.384-21.448a1.037,1.037,0,0,1,.969-1.1Zm13.05-11.417h-10.265l-1.384,4.151h13.033Zm0,0" transform="translate(450 -517.89)" fill="#fff"/>
         </svg>
+        <svg v-else-if="icon == 'tick-circle'" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">
+            <g id="Group_3420" data-name="Group 3420" transform="translate(-179.047 -54.689)">
+                <g id="Group_3418" data-name="Group 3418" transform="translate(183.179 57.316)">
+                <path id="Path_3462" data-name="Path 3462" d="M246.006,103.493a.718.718,0,0,1-.511-.212l-3.724-3.724a.638.638,0,1,1,.9-.9l3.334,3.334,7.357-7.357a.638.638,0,0,1,.9.9l-7.748,7.748A.718.718,0,0,1,246.006,103.493Z" transform="translate(-241.584 -94.445)" fill="#fff"/>
+                </g>
+                <g id="Group_3419" data-name="Group 3419" transform="translate(179.047 54.689)">
+                <path id="Path_3463" data-name="Path 3463" d="M187.547,71.689a8.5,8.5,0,1,1,4.69-15.59.638.638,0,1,1-.7,1.063,7.225,7.225,0,1,0,3.239,6.026.638.638,0,1,1,1.276,0A8.51,8.51,0,0,1,187.547,71.689Z" transform="translate(-179.047 -54.689)" fill="#fff"/>
+                </g>
+            </g>
+        </svg>
+        <svg v-else-if="icon == 'tick-plain'" xmlns="http://www.w3.org/2000/svg" width="12.449" height="9" viewBox="0 0 12.449 9">
+            <g id="Group_3422" data-name="Group 3422" transform="translate(-608.776 -449.969)">
+                <path id="Path_3468" data-name="Path 3468" d="M613.19,458.969a1.1,1.1,0,0,1-.784-.324l-3.335-3.335a1.008,1.008,0,1,1,1.425-1.425l2.694,2.694,6.315-6.315a1.008,1.008,0,0,1,1.425,1.425l-6.956,6.956A1.1,1.1,0,0,1,613.19,458.969Z" fill="#fff"/>
+            </g>
+        </svg>
+        <svg v-else-if="icon == 'cross'" xmlns="http://www.w3.org/2000/svg" width="7.495" height="7.5" viewBox="0 0 7.495 7.5">
+            <path id="Path_3467" data-name="Path 3467" d="M635.705,772.062,637.772,770a.854.854,0,0,0,.058-1.161.836.836,0,0,0-1.22-.041l-2.087,2.087a.334.334,0,0,1-.473,0l-2.087-2.087a.836.836,0,0,0-1.182,1.182l2.087,2.087a.334.334,0,0,1,0,.473l-2.087,2.087a.836.836,0,1,0,1.182,1.182l2.087-2.087a.334.334,0,0,1,.473,0l2.087,2.087a.836.836,0,0,0,1.223-.044.852.852,0,0,0-.059-1.156l-2.069-2.069A.334.334,0,0,1,635.705,772.062Z" transform="translate(-630.537 -768.548)" fill="#fff"/>
+        </svg>
+        <svg v-else-if="icon == 'planned'" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13">
+            <g id="Group_3496" data-name="Group 3496" transform="translate(-494.706 -1323.574)">
+                <circle id="Ellipse_191" data-name="Ellipse 191" cx="6" cy="6" r="6" transform="translate(495.206 1324.074)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+                <path id="Path_3" data-name="Path 3" d="M665.4,1384.116h-3.525v-4.487" transform="translate(-160.898 -53.633)" fill="none" stroke="#fff" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+            </g>
+        </svg>
+        <svg v-else-if="icon == 'unknown'" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13">
+            <g id="Group_3406" data-name="Group 3406" transform="translate(-46.5 -116.5)">
+                <rect id="Rectangle_679" data-name="Rectangle 679" width="12" height="11" rx="1" transform="translate(47 118)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+                <line id="Line_1" data-name="Line 1" y2="2" transform="translate(52 117)" fill="none" stroke="#fff" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+                <line id="Line_2" data-name="Line 2" y2="2" transform="translate(56 117)" fill="none" stroke="#fff" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+                <line id="Line_3" data-name="Line 3" y2="2" transform="translate(50 117)" fill="none" stroke="#fff" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+                <line id="Line_4" data-name="Line 4" y2="2" transform="translate(54 117)" fill="none" stroke="#fff" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+                <line id="Line_5" data-name="Line 5" x2="8" transform="translate(49 121)" fill="none" stroke="#fff" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+                <line id="Line_6" data-name="Line 6" x2="1.158" transform="translate(51.75 124.951)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+                <line id="Line_7" data-name="Line 7" x2="1.158" transform="translate(54.762 124.951)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+                <line id="Line_8" data-name="Line 8" x2="1.158" transform="translate(48.738 124.951)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+                <line id="Line_9" data-name="Line 9" x2="1.158" transform="translate(51.75 126.804)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+                <line id="Line_10" data-name="Line 10" x2="1.158" transform="translate(48.738 126.804)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+                <line id="Line_11" data-name="Line 11" x2="1.158" transform="translate(51.75 123.097)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+                <line id="Line_12" data-name="Line 12" x2="1.158" transform="translate(54.762 123.097)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+            </g>
+        </svg>
     </div>
 </template>
 

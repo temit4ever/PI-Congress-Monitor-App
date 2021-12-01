@@ -1,11 +1,11 @@
 <template>
-  <app-layout title="Users">
+  <app-layout title="Users" :auth-user="user">
     <template #header>
       <h2>
       User
       </h2>
       <p>
-        Omnis dio. Lorectatur? Luptatquibus parum renditi…
+        Add / Edit / Delete AstraZeneca users
       </p>
     </template>
 
@@ -15,17 +15,22 @@
           User Profile
         </h2>
         <div class="card__heading-button">
-          <a :href="route('user.edit', {id: user.id})" class="button">
+          <span v-if="user_details">
+          <a :href="route('user.edit', {id: user_details.id})" class="button button--small">
             Edit User
           </a>
+          </span>
         </div>
       </div>
-      <div class="card__inner">
-        <img class="profile-image" :src="`${user.profile_photo_path}`">
+      <div v-if="user_details" class="card__inner">
+        <div class="profile-image">
+          <img v-if="user_details.profile_photo_path !== 'placeholder-profile.jpg'" :src="user_details.profile_photo_path">
+          <img v-else src="../../../../images/placeholder-profile.jpg">
+        </div>
         <div class="card__content">
-          <p>{{user.title}} {{user.firstname}} {{user.lastname}}</p>
-          <p>{{user.email}}</p>
-          <h2>{{user.roles[0].name}}</h2>
+          <p>{{user_details.title}} {{user_details.firstname}} {{user_details.lastname}}</p>
+          <p>{{user_details.email}}</p>
+          <h2>{{user_details.roles[0].name}}</h2>
         </div>
       </div>
     </div>
@@ -41,6 +46,7 @@ export default {
   },
   props: {
     user: Object,
+    user_details: Object,
   },
 }
 </script>

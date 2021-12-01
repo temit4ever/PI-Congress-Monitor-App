@@ -1,12 +1,9 @@
 <template>
-  <app-layout title="Users">
+  <app-layout title="Permissions" :auth-user="user">
     <template #header>
       <h2>
         Permissions
       </h2>
-      <p>
-        Omnis dio. Lorectatur? Luptatquibus parum renditi…
-      </p>
     </template>
     <div class="card card--narrow">
       <div class="card__heading">
@@ -46,7 +43,9 @@ export default {
     AppLayout,
   },
   props: {
-    permissions: Object
+    permissions: Object,
+    user: Object,
+
   }
 
 }

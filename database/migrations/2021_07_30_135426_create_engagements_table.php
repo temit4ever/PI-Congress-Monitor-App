@@ -20,13 +20,13 @@ class CreateEngagementsTable extends Migration
         $table->string('name');
         $table->string('type');
         $table->string('house_number')->nullable();
-        $table->string('address_1', 150);
+        $table->string('address_1', 150)->nullable();
         $table->string('address_2', 150)->nullable();
         $table->string('city')->nullable();
         $table->string('post_code')->nullable();
         $table->string('county_state')->nullable();
         $table->string('country_id')->nullable();
-        $table->string('congress_link');
+        $table->string('congress');
         $table->longText('description')->nullable();
         $table->string('calendar_date');
         $table->jsonb('start_time');

@@ -1,16 +1,11 @@
-Dashboard
-
-
-
-
 <template>
-  <app-layout title="Dashboard">
+  <app-layout title="Dashboard" :auth-user="AuthUser" :login-status="this.logInCheck()">
     <template #header>
       <h2>
         LEAD Dashboard
       </h2>
       <p>
-        Omnis dio. Lorectatur? Luptatquibus parum renditi…
+        Welcome to the Lung Expert Activity Dashboard (LEAD)
       </p>
     </template>
 
@@ -22,17 +17,19 @@ Dashboard
               <div class="stats__card-title">
                 Planned
                 <div class="stats__card-title-icon">
-                  <Icon icon="calendar" />
+                  <icons icon="calendar" />
                 </div>
               </div>
               <div class="stats__card-stat">
-                00
+                <span v-if="total_per_quarter">{{total_per_quarter}}</span>
+                <span v-else>00</span>
               </div>
               <div class="stats__card-footer">
                 <div class="stats__card-footer-title">
                   Engagements
                 </div>
-                Per KEE in Q1
+                with KEE in <span v-if="quarter_name">{{quarter_name}}</span>
+                <span v-else>00</span>
               </div>
             </div>
           </div>
@@ -43,20 +40,23 @@ Dashboard
               <div class="stats__card-title">
                 Actual
                 <div class="stats__card-title-icon">
-                  <Icon icon="person" />
+                  <Icons icon="person" />
                 </div>
               </div>
               <div class="stats__card-stat">
-                00
+                <span v-if="attended_engagement_quarterly">{{attended_engagement_quarterly}}</span>
+                <span v-else>00</span>
                 <span class="stats__card-stat-small">
-                                    /00<sup>%</sup>
-                                </span>
+                  /<span v-if="quarter_engagement_percentage">{{quarter_engagement_percentage}}</span>
+                <span v-else>00</span><sup>%</sup>
+                </span>
               </div>
               <div class="stats__card-footer">
                 <div class="stats__card-footer-title">
                   Engagements
                 </div>
-                Per KEE in Q1
+                with KEE in <span v-if="quarter_name">{{quarter_name}}</span>
+                <span v-else>00</span>
               </div>
             </div>
           </div>
@@ -67,20 +67,22 @@ Dashboard
               <div class="stats__card-title">
                 Total Actual
                 <div class="stats__card-title-icon">
-                  21
+                  {{ year }}
                 </div>
               </div>
               <div class="stats__card-stat">
-                00
+                <span v-if="yearly_attendance">{{yearly_attendance}}</span>
+                <span v-else>00</span>
                 <span class="stats__card-stat-small">
-                                    /00<sup>%</sup>
-                                </span>
+                  /<span v-if="yearly_engagement_percentage">{{yearly_engagement_percentage}}</span>
+                <span v-else>00</span><sup>%</sup>
+                </span>
               </div>
               <div class="stats__card-footer">
                 <div class="stats__card-footer-title">
                   Engagements
                 </div>
-                Per KEE for the year
+                with KEE for the year
               </div>
             </div>
           </div>
@@ -89,22 +91,24 @@ Dashboard
           <div class="stats__card stats__card--blue">
             <div class="stats__card-inner">
               <div class="stats__card-title">
-                KEE Rankings
+                KEE Relationship
                 <div class="stats__card-title-icon">
-                  <Icon icon="star" />
+                  <Icons icon="star" />
                 </div>
               </div>
               <div class="stats__card-stat">
-                00
+                <span v-if="grade">{{grade}}</span>
+                <span v-else>00</span>
                 <span class="stats__card-stat-small">
-                                    /00<sup>%</sup>
+                                    /<span v-if="yearly_grade_percentage">{{yearly_grade_percentage}}</span>
+                <span v-else>00</span><sup>%</sup>
                                 </span>
               </div>
               <div class="stats__card-footer">
                 <div class="stats__card-footer-title">
-                  A - Grade
+                  A - Category
                 </div>
-                N<sup>o</sup> of KEEs Graded A
+                N<sup>o</sup> of KEEs Category A
               </div>
             </div>
           </div>
@@ -117,8 +121,8 @@ Dashboard
         <h2 class="card__title">
           Upcoming Engagements
         </h2>
-        <div class="card__heading-button">
-          <a href="#" class="button">
+        <div class="card__heading-button" v-if="AuthUser.status !== 'member'">
+          <a :href="route('calendar.index')" class="button">
             Calendar
           </a>
         </div>
@@ -141,127 +145,98 @@ Dashboard
           Action
         </th>
         </thead>
-        <tr>
-          <td>
-            <div class="table__cell-with-icon">
+        <tbody>
+        <template v-if="upcoming_engagement.data.length === 0">
+          <tr>
+            <td>
+              <div>
+                <p>No result found</p>
+              </div>
+            </td>
+          </tr>
+        </template>
+        <template v-else v-for="engagement in upcoming_engagement.data" :key="engagement.id">
+          <tr>
+            <td>
+              <div class="table__cell-with-icon">
                             <span class="table__icon">
-                                <Icon icon="location" />
+                                <Icons icon="location" />
                             </span>
-              Engagements N
-            </div>
-          </td>
-          <td>
-            00/00/00 00:00
-          </td>
-          <td>
-            Early
-          </td>
-          <td>
-            London, UK
-          </td>
-          <td class="table__buttons">
-            <div class="buttons-group">
-              <a href="#" class="button button--small">
-                View
-              </a>
-              <a href="#" class="button button--small button--green">
+                <span v-if="engagement.name">
+                {{engagement.name }}
+              </span>
+              </div>
+            </td>
+            <td>
+            <span v-if="engagement.name">
+                {{dateTime(engagement.calendar_date) }}
+              </span>
+            </td>
+            <td>
+            <span v-if="engagement.data_set">
+                {{ engagement.data_set }}
+              </span>
+            </td>
+            <td>
+              <div v-if="engagement.city === null || country === null">N/A</div>
+              <div v-else>{{ engagement.city }} {{ country[engagement.country_id] }}</div>
+            </td>
+            <td class="table__buttons">
+              <div class="buttons-group">
+                <a :href="route('engagement.show', {id: engagement.id})" class="button button--small">
+                  View
+                </a>
+                <a :href="route('engagement.edit', {id: engagement.id})" class="button button--small button--green" v-if="AuthUser.status !== 'member'">
                                 <span class="button__icon">
-                                    <Icon icon="edit" />
+                                    <Icons icon="edit" />
                                 </span>
-                Edit
-              </a>
-              <a href="#" class="button button--small button--red">
-                                <span class="button__icon">
-                                    <Icon icon="trash" />
-                                </span>
-                Delete
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr class="table__spacer">
-          <td colspan="5"></td>
-        </tr>
-        <tr>
-          <td>
-            <div class="table__cell-with-icon">
-                            <span class="table__icon">
-                                <Icon icon="location" />
-                            </span>
-              Engagements N
-            </div>
-          </td>
-          <td>
-            00/00/00 00:00
-          </td>
-          <td>
-            Early
-          </td>
-          <td>
-            London, UK
-          </td>
-          <td class="table__buttons">
-            <div class="buttons-group">
-              <a href="#" class="button button--small">
-                View
-              </a>
-              <a href="#" class="button button--small button--green">
-                                <span class="button__icon">
-                                    <Icon icon="edit" />
-                                </span>
-                Edit
-              </a>
-              <a href="#" class="button button--small button--red">
-                                <span class="button__icon">
-                                    <Icon icon="trash" />
-                                </span>
-                Delete
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr class="table__spacer">
-          <td colspan="5"></td>
-        </tr>
-        <tr>
-          <td>
-            <div class="table__cell-with-icon">
-                            <span class="table__icon">
-                                <Icon icon="location" />
-                            </span>
-              Engagements N
-            </div>
-          </td>
-          <td>
-            00/00/00 00:00
-          </td>
-          <td>
-            Early
-          </td>
-          <td>
-            London, UK
-          </td>
-          <td class="table__buttons">
-            <div class="buttons-group">
-              <a href="#" class="button button--small">
-                View
-              </a>
-              <a href="#" class="button button--small button--green">
-                                <span class="button__icon">
-                                    <Icon icon="edit" />
-                                </span>
-                Edit
-              </a>
-              <a href="#" class="button button--small button--red">
-                                <span class="button__icon">
-                                    <Icon icon="trash" />
-                                </span>
-                Delete
-              </a>
-            </div>
-          </td>
-        </tr>
+                  Edit
+                </a>
+                <button @click="deleteRow(engagement.id)" type="button" class="button button--small button--red" v-if="AuthUser.status !== 'member'">
+                    <span class="button__icon">
+                        <Icons icon="trash" />
+                    </span>
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr class="table__spacer">
+            <td colspan="5"></td>
+          </tr>
+        </template>
+        </tbody>
       </table>
+      <div v-if="upcoming_engagement.data">
+        <span v-show="upcoming_engagement.data ">
+        <pagination
+          :current-page="upcoming_engagement.current_page"
+          :first-page-url="upcoming_engagement.first_page_url"
+          :from="upcoming_engagement.from"
+          :last-page="upcoming_engagement.last_page"
+          :last-page-url="upcoming_engagement.last_page_url"
+          :per-page="upcoming_engagement.per_page"
+          :to="upcoming_engagement.to"
+          :total="upcoming_engagement.total"
+          :path="upcoming_engagement.path"
+          :next-page-url="upcoming_engagement.next_page_url"
+          :prev-page-url="upcoming_engagement.prev_page_url"
+        />
+      </span>
+      </div>
+      <div v-else>
+        <tr class="table__spacer">
+          <td> No result found</td>
+        </tr>
+      </div>
+      <DeleteModal
+        :modalActive="modalActive"
+        title="Delete Engagement"
+        content="Are you sure you want to delete this engagement?"
+        :id="deleteId"
+        deleteRoute="engagement.delete"
+        @hideModal="hideModal"
+      />
     </div>
     <div class="card">
       <div class="card__heading">
@@ -269,8 +244,8 @@ Dashboard
           Recently Evaluated KEEs
         </h2>
         <div class="card__heading-button">
-          <a href="#" class="button">
-            KEE Ranking
+          <a :href="route('classification.index')" class="button" v-if="AuthUser.status !== 'member'">
+            KEE Relationship
           </a>
         </div>
       </div>
@@ -283,13 +258,13 @@ Dashboard
           Specialism
         </th>
         <th>
-          Ranking
+          Category
         </th>
         <th>
           Data
         </th>
         <th>
-          Commitment
+          Willingness to Partner
         </th>
         <th>
           Performance
@@ -298,1563 +273,82 @@ Dashboard
           Action
         </th>
         </thead>
-        <tr>
-          <td>
-            <div class="table__cell-with-icon">
-                            <span class="table__icon">
-                                <Icon icon="person" />
-                            </span>
-              Sarah Smith
-            </div>
-          </td>
-          <td>
-            Surgery
-          </td>
-          <td>
-            B
-          </td>
-          <td>
-            Expert
-          </td>
-          <td>
-            Medium
-          </td>
-          <td>
-            Advanced
-          </td>
-          <td class="table__buttons">
-            <div class="buttons-group">
-              <a href="#" class="button button--small">
-                View
-              </a>
-              <a href="#" class="button button--small button--green">
-                Schedule
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr class="table__spacer">
-          <td colspan="5"></td>
-        </tr>
-        <tr>
-          <td>
-            <div class="table__cell-with-icon">
-                            <span class="table__icon">
-                                <Icon icon="person" />
-                            </span>
-              Sarah Smith
-            </div>
-          </td>
-          <td>
-            Surgery
-          </td>
-          <td>
-            B
-          </td>
-          <td>
-            Expert
-          </td>
-          <td>
-            Medium
-          </td>
-          <td>
-            Advanced
-          </td>
-          <td class="table__buttons">
-            <div class="buttons-group">
-              <a href="#" class="button button--small">
-                View
-              </a>
-              <a href="#" class="button button--small button--green">
-                Schedule
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr class="table__spacer">
-          <td colspan="5"></td>
-        </tr>
-        <tr>
-          <td>
-            <div class="table__cell-with-icon">
-                            <span class="table__icon">
-                                <Icon icon="person" />
-                            </span>
-              Sarah Smith
-            </div>
-          </td>
-          <td>
-            Surgery
-          </td>
-          <td>
-            B
-          </td>
-          <td>
-            Expert
-          </td>
-          <td>
-            Medium
-          </td>
-          <td>
-            Advanced
-          </td>
-          <td class="table__buttons">
-            <div class="buttons-group">
-              <a href="#" class="button button--small">
-                View
-              </a>
-              <a href="#" class="button button--small button--green">
-                Schedule
-              </a>
-            </div>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div class="card card--narrow">
-      <div class="card__heading">
-        <h2 class="card__title">
-          Roles Table
-        </h2>
-      </div>
-      <div class="table-border-container">
-        <table class="table table--border">
-          <thead>
-          <th>
-            ID
-          </th>
-          <th>
-            Name
-          </th>
-          </thead>
+        <tbody>
+        <template v-if="details.data.length === 0">
           <tr>
             <td>
-              1
-            </td>
-            <td>
-              Super Admin
-            </td>
-          </tr>
-          <tr>
-            <td>
-              2
-            </td>
-            <td>
-              Admin
-            </td>
-          </tr>
-          <tr>
-            <td>
-              3
-            </td>
-            <td>
-              Member
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <EngagementForm />
-    <div class="card card--narrowest card--center">
-      <div class="card__inner">
-                <span class="icon icon--green-gradient">
-                    <Icon icon="tick" />
-                </span>
-        <h2 class="title">
-          Complete
-        </h2>
-        <div class="card__content">
-          <p>
-            A new user has been added/edited
-          </p>
-        </div>
-        <a href="#" class="button">
-          Return
-        </a>
-      </div>
-    </div>
-    <button @click="showModal()">
-      Delete User
-    </button>
-    <transition name="fade">
-      <div class="modal" v-if="modalActive === true">
-        <div class="modal__inner">
-          <div class="card card--narrowest card--center">
-            <div class="card__inner">
-                            <span class="icon icon--red">
-                                <Icon icon="trash-large" />
-                            </span>
-              <h2 class="title">
-                Delete User
-              </h2>
-              <div class="card__content card__content--max-width">
-                <p>
-                  Are you sure you want to delete this user?
-                </p>
+              <div>
+                <p>No result found</p>
               </div>
+            </td>
+          </tr>
+        </template>
+        <template v-else v-for="detail in details.data" :key="detail.id">
+
+          <tr>
+            <td>
+              <div class="table__cell-with-icon">
+                            <span class="table__icon">
+                                <img
+                                  v-if="(detail.kee_photo_path && detail.kee_photo_path !== 'placeholder-profile.jpg')"
+                                  :src="`${detail.kee_photo_path}`" />
+                    <Icons v-else icon="person"/>
+                            </span>
+                <span v-if="detail && detail.title || detail.firstname ||detail.lastname">
+                 {{detail.title}} {{detail.firstname}} {{detail.lastname}}</span>
+              </div>
+            </td>
+            <td>
+              <span v-if="detail && detail.specialism">{{detail.specialism}}</span>
+            </td>
+            <td>
+              <span v-if="detail">{{ detail.rank }}</span>
+            </td>
+            <td>
+              <span v-if="detail">{{ detail.understanding_data_status }}</span>
+            </td>
+            <td>
+              <span v-if="detail">{{ detail.commitment_status }}</span>
+            </td>
+            <td>
+              <span v-if="detail">{{ detail.performance_status }}</span>
+            </td>
+            <td class="table__buttons">
               <div class="buttons-group">
-                <button @click="hideModal()" class="button">
-                  Cancel
-                </button>
-                <button @click="hideModal()" class="button button--red">
-                                    <span class="button__icon">
-                                        <Icon icon="trash" />
-                                    </span>
-                  Delete
-                </button>
+                <a :href="route('kee.shows', {id: detail.id, eid: detail.eid})" class="button button--small">
+                  View
+                </a>
+                <a :href="route('schedule.create', {id: detail.id})" class="button button--small button--green" v-if="AuthUser.status !== 'member'">
+                  Schedule
+                </a>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </transition>
-    <div class="card card--narrowest card--center">
-      <div class="card__heading">
-        <h2 class="card__title">
-          User Profile
-        </h2>
-        <div class="card__heading-button">
-          <a href="#" class="button">
-            Edit
-          </a>
-        </div>
-      </div>
-      <div class="card__inner">
-        <img class="profile-image" src="../../images/placeholder-profile.jpg">
-        <div class="card__content">
-          <p>
-            Dr Sarah Smith
-          </p>
-          <p>
-            <a href="mailto:sarah.smith@gmail.com">
-              sarah.smith@gmail.com
-            </a>
-          </p>
-          <p>
-            Super Admin
-          </p>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- KEE Profile -->
-    <div class="card card--extra-padding">
-      <div class="card__heading">
-        <h2 class="card__title">
-          KEE Ranking
-        </h2>
-        <div class="card__heading-button">
-          <div class="button-group">
-            <a href="#" class="button button--small">
-              Back
-            </a>
-            <a href="#" class="button button--small">
-              Engagements
-            </a>
-            <a href="#" class="button button--small">
-              History
-            </a>
-            <a href="#" class="button button--small">
-              Publications
-            </a>
-            <a href="#" class="button button--small button--green">
-              Schedule
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="profile profile-grid">
-        <div class="profile-grid__first">
-          <img class="profile-image" src="../../images/placeholder-profile.jpg">
-          <table class="profile__details">
-            <tr>
-              <td class="profile__details-title">
-                Title...
-              </td>
-              <td>
-                Dr
-              </td>
-            </tr>
-            <tr>
-              <td class="profile__details-title">
-                First Name:
-              </td>
-              <td>
-                Sarah
-              </td>
-            </tr>
-            <tr>
-              <td class="profile__details-title">
-                Last Name:
-              </td>
-              <td>
-                Smith
-              </td>
-            </tr>
-            <tr>
-              <td class="profile__details-title">
-                Email:
-              </td>
-              <td>
-                sarah.smith@gmail.com
-              </td>
-            </tr>
-            <tr>
-              <td class="profile__details-title">
-                Specialism:
-              </td>
-              <td>
-                Onocology
-              </td>
-            </tr>
-            <tr>
-              <td class="profile__details-title">
-                Place of Work:
-              </td>
-              <td>
-                Royal Berkshire NHS
-              </td>
-            </tr>
-            <tr>
-              <td class="profile__details-title">
-                City:
-              </td>
-              <td>
-                Leicester
-              </td>
-            </tr>
-            <tr>
-              <td class="profile__details-title">
-                Country:
-              </td>
-              <td>
-                United Kindom
-              </td>
-            </tr>
-          </table>
-          <a href="#" class="button">
-            H1 Profile Link
-          </a>
-        </div>
-        <div class="profile-grid__second">
-          <div class="profile__rankings">
-            <div class="profile__rankings-current">
-              <div class="profile__rankings-rank">
-                <img src="../../images/icon-award-advanced.svg">
-              </div>
-              <div class="profile__rankings-grade">
-                <div class="profile__rankings-text profile__rankings-text--grey">
-                  Rank: Advanced
-                </div>
-                <div class="profile__rankings-text">
-                  Grade: B
-                </div>
-                <img src="../../images/icon-grade-b.svg" class="profile__rankings-grade-icon">
-              </div>
-              <div class="profile__ranking-date">
-                00/00/00
-              </div>
-            </div>
-            <div class="profile__rankings-previous">
-              <div class="profile__rankings-text profile__rankings-text--full profile__rankings-text--grey">
-                Previous Rank: General
-              </div>
-              <div class="profile__rankings-rank">
-                <img src="../../images/icon-award-general.svg">
-              </div>
-              <div class="profile__rankings-grade">
-                <div class="profile__rankings-text">
-                  Grade: C
-                </div>
-                <img src="../../images/icon-grade-c.svg" class="profile__rankings-grade-icon">
-              </div>
-              <div class="profile__ranking-date">
-                00/00/00
-              </div>
-            </div>
-          </div>
-          <div class="profile-chart">
-            <h2 class="title-small">
-              Understanding of Data:
-            </h2>
-            <div class="profile-chart__labels">
-              <div class="profile-chart__label">
-                                <span>
-                                    Basic
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    General
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Advanced
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Expert
-                                </span>
-              </div>
-            </div>
-            <div class="profile-chart__graph">
-              <span class="profile-chart__bar profile-chart__bar--empty" style="width: 66.66%;"></span>
-            </div>
-          </div>
-          <div class="profile-chart">
-            <h2 class="title-small">
-              Commitment:
-            </h2>
-            <div class="profile-chart__labels">
-              <div class="profile-chart__label">
-                                <span>
-                                    Low
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Medium
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    High
-                                </span>
-              </div>
-            </div>
-            <div class="profile-chart__graph">
-              <span class="profile-chart__bar profile-chart__bar--gradient profile-chart__bar--empty" style="width: 50%;"></span>
-            </div>
-          </div>
-          <div class="profile-chart">
-            <h2 class="title-small">
-              Performance/Delivery:
-            </h2>
-            <div class="profile-chart__labels">
-              <div class="profile-chart__label">
-                                <span>
-                                    Basic
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    General
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Advanced
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Expert
-                                </span>
-              </div>
-            </div>
-            <div class="profile-chart__graph">
-              <span class="profile-chart__bar profile-chart__bar--empty" style="width: 33.33%;"></span>
-            </div>
-          </div>
-          <hr>
-          <h2 class="title-large">
-            Clinical Trial
-          </h2>
-          <div class="profile-chart">
-            <h2 class="title-small">
-              FLAURA
-            </h2>
-            <div class="profile-chart__labels">
-              <div class="profile-chart__label">
-                                <span>
-                                    Basic
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    General
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Advanced
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Expert
-                                </span>
-              </div>
-            </div>
-            <div class="profile-chart__graph">
-              <span class="profile-chart__bar profile-chart__bar--empty" style="width: 33.33%;"></span>
-            </div>
-          </div>
-          <div class="profile-chart">
-            <h2 class="title-small">
-              MYKONOS
-            </h2>
-            <div class="profile-chart__labels">
-              <div class="profile-chart__label">
-                                <span>
-                                    Basic
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    General
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Advanced
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Expert
-                                </span>
-              </div>
-            </div>
-            <div class="profile-chart__graph">
-              <span class="profile-chart__bar profile-chart__bar--empty" style="width: 100%;"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-    <!-- KEE Evaluate -->
-    <div class="card card--extra-padding">
-      <div class="card__heading card__heading--grid">
-        <h2 class="card__title card__title--shrink">
-          KEE Profile
-        </h2>
-        <div class="card__title">
-          Evaluate
-        </div>
-        <div class="card__heading-button">
-          <div class="button-group">
-            <a href="#" class="button button--small">
-              Save
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="profile profile-grid">
-        <div class="profile-grid__first">
-          <img class="profile-image" src="../../images/placeholder-profile.jpg">
-          <table class="profile__details">
-            <tr>
-              <td class="profile__details-title">
-                Title...
-              </td>
-              <td>
-                Dr
-              </td>
-            </tr>
-            <tr>
-              <td class="profile__details-title">
-                First Name:
-              </td>
-              <td>
-                Sarah
-              </td>
-            </tr>
-            <tr>
-              <td class="profile__details-title">
-                Last Name:
-              </td>
-              <td>
-                Smith
-              </td>
-            </tr>
-            <tr>
-              <td class="profile__details-title">
-                Email:
-              </td>
-              <td>
-                sarah.smith@gmail.com
-              </td>
-            </tr>
-            <tr>
-              <td class="profile__details-title">
-                Specialism:
-              </td>
-              <td>
-                Onocology
-              </td>
-            </tr>
-            <tr>
-              <td class="profile__details-title">
-                Place of Work:
-              </td>
-              <td>
-                Royal Berkshire NHS
-              </td>
-            </tr>
-            <tr>
-              <td class="profile__details-title">
-                City:
-              </td>
-              <td>
-                Leicester
-              </td>
-            </tr>
-            <tr>
-              <td class="profile__details-title">
-                Country:
-              </td>
-              <td>
-                United Kindom
-              </td>
-            </tr>
-          </table>
-          <a href="#" class="button">
-            H1 Profile Link
-          </a>
-        </div>
-        <div class="profile-grid__second">
-          <h2 class="form__item-heading">
-            Did they attend?
-          </h2>
-          <div class="form__item form__inline">
-            <div class="form__inline-item">
-              <label for="attend-yes">
-                <input type="radio" id="attend-yes" name="attend" value="Yes" checked>
-                Yes
-              </label>
-            </div>
-            <div class="form__inline-item">
-              <label for="attend-no">
-                <input type="radio" id="attend-no" name="attend" value="No">
-                No
-              </label>
-            </div>
-          </div>
-          <div class="profile-chart">
-            <h2 class="title-small">
-              Understanding of Data:
-            </h2>
-            <div class="profile-chart__labels">
-              <div class="profile-chart__label">
-                                <span>
-                                    Basic
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    General
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Advanced
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Expert
-                                </span>
-              </div>
-            </div>
-            <div class="profile-chart__graph">
-              <span class="profile-chart__bar profile-chart__bar--empty"></span>
-            </div>
-            <div class="form__required profile__select">
-              <select class="chart-select" v-on:change="onChartChange($event)">
-                <option disabled hidden>
-                  Evaluate
-                </option>
-                <option selected value="Basic" data-percentage="0%">
-                  Basic
-                </option>
-                <option value="General" data-percentage="33.33%">
-                  General
-                </option>
-                <option value="Advanced" data-percentage="66.66%">
-                  Advanced
-                </option>
-                <option value="Expert" data-percentage="100%">
-                  Expert
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="profile-chart">
-            <h2 class="title-small">
-              Commitment:
-            </h2>
-            <div class="profile-chart__labels">
-              <div class="profile-chart__label">
-                                <span>
-                                    Low
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Medium
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    High
-                                </span>
-              </div>
-            </div>
-            <div class="profile-chart__graph">
-              <span class="profile-chart__bar profile-chart__bar--gradient profile-chart__bar--empty"></span>
-            </div>
-            <div class="form__required profile__select">
-              <select class="chart-select" v-on:change="onChartChange($event)">
-                <option disabled hidden>
-                  Evaluate
-                </option>
-                <option value="Low" data-percentage="0%">
-                  Low
-                </option>
-                <option selected value="Medium" data-percentage="50%">
-                  Medium
-                </option>
-                <option value="High" data-percentage="100%">
-                  High
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="profile-chart">
-            <h2 class="title-small">
-              Performance/Delivery:
-            </h2>
-            <div class="profile-chart__labels">
-              <div class="profile-chart__label">
-                                <span>
-                                    Basic
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    General
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Advanced
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Expert
-                                </span>
-              </div>
-            </div>
-            <div class="profile-chart__graph">
-              <span class="profile-chart__bar profile-chart__bar--empty"></span>
-            </div>
-            <div class="form__required profile__select">
-              <select class="chart-select" v-on:change="onChartChange($event)">
-                <option disabled hidden>
-                  Evaluate
-                </option>
-                <option value="Basic" data-percentage="0%">
-                  Basic
-                </option>
-                <option value="General" data-percentage="33.33%">
-                  General
-                </option>
-                <option selected value="Advanced" data-percentage="66.66%">
-                  Advanced
-                </option>
-                <option value="Expert" data-percentage="100%">
-                  Expert
-                </option>
-              </select>
-            </div>
-          </div>
-          <hr>
-          <h2 class="title-large">
-            Clinical Trial
-          </h2>
-          <div class="profile-chart">
-            <h2 class="title-small">
-              FLAURA
-            </h2>
-            <div class="profile-chart__labels">
-              <div class="profile-chart__label">
-                                <span>
-                                    Basic
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    General
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Advanced
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Expert
-                                </span>
-              </div>
-            </div>
-            <div class="profile-chart__graph">
-              <span class="profile-chart__bar profile-chart__bar--empty"></span>
-            </div>
-            <div class="profile__select">
-              <select class="chart-select" v-on:change="onChartChange($event)">
-                <option selected disabled hidden>
-                  Evaluate
-                </option>
-                <option value="Basic" data-percentage="0%">
-                  Basic
-                </option>
-                <option value="General" data-percentage="33.33%">
-                  General
-                </option>
-                <option value="Advanced" data-percentage="66.66%">
-                  Advanced
-                </option>
-                <option selected value="Expert" data-percentage="100%">
-                  Expert
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="profile-chart">
-            <h2 class="title-small">
-              MYKONOS
-            </h2>
-            <div class="profile-chart__labels">
-              <div class="profile-chart__label">
-                                <span>
-                                    Basic
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    General
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Advanced
-                                </span>
-              </div>
-              <div class="profile-chart__label">
-                                <span>
-                                    Expert
-                                </span>
-              </div>
-            </div>
-            <div class="profile-chart__graph">
-              <span class="profile-chart__bar profile-chart__bar--empty"></span>
-            </div>
-            <div class="profile__select">
-              <select class="chart-select" v-on:change="onChartChange($event)">
-                <option disabled hidden>
-                  Evaluate
-                </option>
-                <option value="Basic" data-percentage="0%">
-                  Basic
-                </option>
-                <option value="General" data-percentage="33.33%">
-                  General
-                </option>
-                <option value="Advanced" data-percentage="66.66%">
-                  Advanced
-                </option>
-                <option selected value="Expert" data-percentage="100%">
-                  Expert
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-    <!-- KEE Ranking History -->
-    <div class="card card--extra-padding">
-      <div class="card__heading">
-        <h2 class="card__title">
-          KEE Ranking History
-        </h2>
-        <div class="card__heading-button">
-          <div class="button-group">
-            <a href="#" class="button button--small">
-              Back
-            </a>
-            <a href="#" class="button button--small">
-              Profile
-            </a>
-            <a href="#" class="button button--small">
-              Engagements
-            </a>
-            <a href="#" class="button button--small">
-              Publications
-            </a>
-            <a href="#" class="button button--small button--green">
-              Schedule
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="profile-grid-evaluation">
-        <div class="profile-grid">
-          <div class="profile-grid__first">
-            <div class="profile__rankings">
-              <div class="profile__rankings-current">
-                <div class="profile__ranking-title">
-                  Evaluation 3 - <span>00/00/00</span>
-                </div>
-                <div class="profile__rankings-rank">
-                  <img src="../../images/icon-award-advanced.svg">
-                </div>
-                <div class="profile__rankings-grade">
-                  <div class="profile__rankings-text profile__rankings-text--grey">
-                    Rank: Advanced
-                  </div>
-                  <div class="profile__rankings-text">
-                    Grade: B
-                  </div>
-                  <img src="../../images/icon-grade-b.svg" class="profile__rankings-grade-icon">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="profile-grid__second">
-            <div class="profile-chart">
-              <h2 class="title-small">
-                Understanding of Data:
-              </h2>
-              <div class="profile-chart__labels">
-                <div class="profile-chart__label">
-                                    <span>
-                                        Basic
-                                    </span>
-                </div>
-                <div class="profile-chart__label">
-                                    <span>
-                                        General
-                                    </span>
-                </div>
-                <div class="profile-chart__label">
-                                    <span>
-                                        Advanced
-                                    </span>
-                </div>
-                <div class="profile-chart__label">
-                                    <span>
-                                        Expert
-                                    </span>
-                </div>
-              </div>
-              <div class="profile-chart__graph">
-                <span class="profile-chart__bar profile-chart__bar--empty" style="width: 66.66%;"></span>
-              </div>
-            </div>
-            <div class="profile-chart">
-              <h2 class="title-small">
-                Commitment:
-              </h2>
-              <div class="profile-chart__labels">
-                <div class="profile-chart__label">
-                                    <span>
-                                        Low
-                                    </span>
-                </div>
-                <div class="profile-chart__label">
-                                    <span>
-                                        Medium
-                                    </span>
-                </div>
-                <div class="profile-chart__label">
-                                    <span>
-                                        High
-                                    </span>
-                </div>
-              </div>
-              <div class="profile-chart__graph">
-                <span class="profile-chart__bar profile-chart__bar--gradient profile-chart__bar--empty" style="width: 50%;"></span>
-              </div>
-            </div>
-            <div class="profile-chart">
-              <h2 class="title-small">
-                Performance/Delivery:
-              </h2>
-              <div class="profile-chart__labels">
-                <div class="profile-chart__label">
-                                    <span>
-                                        Basic
-                                    </span>
-                </div>
-                <div class="profile-chart__label">
-                                    <span>
-                                        General
-                                    </span>
-                </div>
-                <div class="profile-chart__label">
-                                    <span>
-                                        Advanced
-                                    </span>
-                </div>
-                <div class="profile-chart__label">
-                                    <span>
-                                        Expert
-                                    </span>
-                </div>
-              </div>
-              <div class="profile-chart__graph">
-                <span class="profile-chart__bar profile-chart__bar--empty" style="width: 33.33%;"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="profile-grid-evaluation">
-        <div class="profile-grid">
-          <div class="profile-grid__first">
-            <div class="profile__rankings">
-              <div class="profile__rankings-current">
-                <div class="profile__ranking-title">
-                  Evaluation 2 - <span>00/00/00</span>
-                </div>
-                <div class="profile__rankings-rank">
-                  <img src="../../images/icon-award-general.svg">
-                </div>
-                <div class="profile__rankings-grade">
-                  <div class="profile__rankings-text profile__rankings-text--grey">
-                    Rank: General
-                  </div>
-                  <div class="profile__rankings-text">
-                    Grade: C
-                  </div>
-                  <img src="../../images/icon-grade-c.svg" class="profile__rankings-grade-icon">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="profile-grid__second">
-            <div class="profile-chart">
-              <h2 class="title-small">
-                Understanding of Data:
-              </h2>
-              <div class="profile-chart__labels">
-                <div class="profile-chart__label">
-                                    <span>
-                                        Basic
-                                    </span>
-                </div>
-                <div class="profile-chart__label">
-                                    <span>
-                                        General
-                                    </span>
-                </div>
-                <div class="profile-chart__label">
-                                    <span>
-                                        Advanced
-                                    </span>
-                </div>
-                <div class="profile-chart__label">
-                                    <span>
-                                        Expert
-                                    </span>
-                </div>
-              </div>
-              <div class="profile-chart__graph">
-                <span class="profile-chart__bar profile-chart__bar--empty" style="width: 66.66%;"></span>
-              </div>
-            </div>
-            <div class="profile-chart">
-              <h2 class="title-small">
-                Commitment:
-              </h2>
-              <div class="profile-chart__labels">
-                <div class="profile-chart__label">
-                                    <span>
-                                        Low
-                                    </span>
-                </div>
-                <div class="profile-chart__label">
-                                    <span>
-                                        Medium
-                                    </span>
-                </div>
-                <div class="profile-chart__label">
-                                    <span>
-                                        High
-                                    </span>
-                </div>
-              </div>
-              <div class="profile-chart__graph">
-                <span class="profile-chart__bar profile-chart__bar--gradient profile-chart__bar--empty" style="width: 50%;"></span>
-              </div>
-            </div>
-            <div class="profile-chart">
-              <h2 class="title-small">
-                Performance/Delivery:
-              </h2>
-              <div class="profile-chart__labels">
-                <div class="profile-chart__label">
-                                    <span>
-                                        Basic
-                                    </span>
-                </div>
-                <div class="profile-chart__label">
-                                    <span>
-                                        General
-                                    </span>
-                </div>
-                <div class="profile-chart__label">
-                                    <span>
-                                        Advanced
-                                    </span>
-                </div>
-                <div class="profile-chart__label">
-                                    <span>
-                                        Expert
-                                    </span>
-                </div>
-              </div>
-              <div class="profile-chart__graph">
-                <span class="profile-chart__bar profile-chart__bar--empty" style="width: 33.33%;"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Engagement details -->
-    <div class="card card--extra-padding">
-      <div class="card__heading">
-        <h2 class="card__title">
-          Engagement Details
-        </h2>
-        <div class="card__heading-button">
-          <div class="button-group">
-            <a href="#" class="button">
-              Back
-            </a>
-            <a href="#" class="button button--green">
-              Edit
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="engagement-details">
-        <div class="engagement-details__first">
-          <div class="engagement-details__small m-bot">
-            In Person/Digital
-          </div>
-          <div class="c-purple title-medium m-bot">
-            Engagement Name...
-          </div>
-          <div class="c-purple">
-            Wednesday, 30 June, 2021
-          </div>
-          <div class="c-purple">
-            Start: 10:30 am
-          </div>
-          <div class="c-purple m-bot--2">
-            End: 11:30 am
-          </div>
-          <div>
-            Engagement Type: Ad Board
-          </div>
-          <div class="m-bot--2">
-            Congress Link: None
-          </div>
-          <div>
-            Data Sets:
-            <div class="engagement-details__small">
-              Early
-            </div>
-          </div>
-        </div>
-        <div class="engagement-details__second">
-          <table class="engagement-details__table">
-            <tr>
-              <td class="engagement-details__table-title">
-                House or Office Number:
-              </td>
-              <td>
-                10a, Level 2
-              </td>
-            </tr>
-            <tr>
-              <td class="engagement-details__table-title">
-                Street Address 1:
-              </td>
-              <td>
-                Vega House
-              </td>
-            </tr>
-            <tr>
-              <td class="engagement-details__table-title">
-                Street Address 2:
-              </td>
-              <td>
-                Trinity Industrial Estate
-              </td>
-            </tr>
-            <tr>
-              <td class="engagement-details__table-title">
-                County/State:
-              </td>
-              <td>
-                Buckinghamshire
-              </td>
-            </tr>
-            <tr>
-              <td class="engagement-details__table-title">
-                City:
-              </td>
-              <td>
-                Milton Keynes
-              </td>
-            </tr>
-            <tr>
-              <td class="engagement-details__table-title">
-                Postcode:
-              </td>
-              <td>
-                MK11 0GH
-              </td>
-            </tr>
-            <tr>
-              <td class="engagement-details__table-title">
-                Select Country:
-              </td>
-              <td>
-                United Kindom
-              </td>
-            </tr>
-          </table>
-          <a href="#" class="engagement-details__meeting-link">
-            <img class="meeting-icon" src="../../images/icon-meeting.svg">Digital Meeting
-          </a>
-        </div>
-      </div>
-      <hr>
-      <table class="table">
-        <thead>
-        <th>
-          Name
-        </th>
-        <th>
-          Specialism
-        </th>
-        <th>
-          Ranking
-        </th>
-        <th>
-          Data
-        </th>
-        <th>
-          Commitment
-        </th>
-        <th>
-          Performance
-        </th>
-        <th>
-          Action
-        </th>
-        </thead>
-        <tr>
-          <td>
-            <div class="table__cell-with-icon">
-                            <span class="table__icon">
-                                <Icon icon="person" />
-                            </span>
-              Sarah Smith
-            </div>
-          </td>
-          <td>
-            Surgery
-          </td>
-          <td>
-            B
-          </td>
-          <td>
-            Expert
-          </td>
-          <td>
-            Medium
-          </td>
-          <td>
-            Advanced
-          </td>
-          <td class="table__buttons">
-            <div class="buttons-group">
-              <a href="#" class="button button--small">
-                View
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr class="table__spacer">
-          <td colspan="5"></td>
-        </tr>
-        <tr>
-          <td>
-            <div class="table__cell-with-icon">
-                            <span class="table__icon">
-                                <Icon icon="person" />
-                            </span>
-              Sarah Smith
-            </div>
-          </td>
-          <td>
-            Surgery
-          </td>
-          <td>
-            B
-          </td>
-          <td>
-            Expert
-          </td>
-          <td>
-            Medium
-          </td>
-          <td>
-            Advanced
-          </td>
-          <td class="table__buttons">
-            <div class="buttons-group">
-              <a href="#" class="button button--small">
-                View
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr class="table__spacer">
-          <td colspan="5"></td>
-        </tr>
-        <tr>
-          <td>
-            <div class="table__cell-with-icon">
-                            <span class="table__icon">
-                                <Icon icon="person" />
-                            </span>
-              Sarah Smith
-            </div>
-          </td>
-          <td>
-            Surgery
-          </td>
-          <td>
-            B
-          </td>
-          <td>
-            Expert
-          </td>
-          <td>
-            Medium
-          </td>
-          <td>
-            Advanced
-          </td>
-          <td class="table__buttons">
-            <div class="buttons-group">
-              <a href="#" class="button button--small">
-                View
-              </a>
-            </div>
-          </td>
-        </tr>
+            </td>
+          </tr>
+        </template>
+        </tbody>
       </table>
-    </div>
-
-
-    <!-- Publications -->
-    <div class="card card--extra-padding">
-      <div class="card__heading card__heading--margin">
-        <h2 class="card__title">
-          KEE Publications
-        </h2>
-        <div class="card__heading-button">
-          <div class="button-group">
-            <a href="#" class="button button--small">
-              Back
-            </a>
-            <a href="#" class="button button--small">
-              Profile
-            </a>
-            <a href="#" class="button button--small">
-              Engagements
-            </a>
-            <a href="#" class="button button--small">
-              History
-            </a>
-            <a href="#" class="button button--small button--green">
-              Schedule
-            </a>
-          </div>
-        </div>
+      <div v-if="details.data">
+        <span v-show="details.data ">
+        <pagination
+          :current-page="details.current_page"
+          :first-page-url="details.first_page_url"
+          :from="details.from"
+          :last-page="details.last_page"
+          :last-page-url="details.last_page_url"
+          :per-page="details.per_page"
+          :to="details.to"
+          :total="details.total"
+          :path="details.path"
+          :next-page-url="details.next_page_url"
+          :prev-page-url="details.prev_page_url"
+        />
+      </span>
       </div>
-      <div class="publication">
-        <div class="publication__content">
-          <h2 class="title-medium m-bot">
-            Publication Name...
-          </h2>
-          <h3 class="title-small c-purple m-bot">
-            Pending/Complete
-          </h3>
-          <p class="c-darkest-grey">
-            Maior solupta temporerum rem iumquam, as et int eiur magnimus et aut quam aut quatur sam fugiae quid et voluptati quature pelibuscimi.
-          </p>
-        </div>
-        <div>
-          <a href="#" class="button">
-            Link
-          </a>
-        </div>
+      <div v-else>
+        <tr class="table__spacer">
+          <td> No result found</td>
+        </tr>
       </div>
-      <div class="publication">
-        <div class="publication__content">
-          <h2 class="title-medium m-bot">
-            Publication Name...
-          </h2>
-          <h3 class="title-small c-purple m-bot">
-            Pending/Complete
-          </h3>
-          <p class="c-darkest-grey">
-            Maior solupta temporerum rem iumquam, as et int eiur magnimus et aut quam aut quatur sam fugiae quid et voluptati quature pelibuscimi.
-          </p>
-        </div>
-        <div>
-          <a href="#" class="button">
-            Link
-          </a>
-        </div>
-      </div>
-      <div class="publication">
-        <div class="publication__content">
-          <h2 class="title-medium m-bot">
-            Publication Name...
-          </h2>
-          <h3 class="title-small c-purple m-bot">
-            Pending/Complete
-          </h3>
-          <p class="c-darkest-grey">
-            Maior solupta temporerum rem iumquam, as et int eiur magnimus et aut quam aut quatur sam fugiae quid et voluptati quature pelibuscimi.
-          </p>
-        </div>
-        <div>
-          <a href="#" class="button">
-            Link
-          </a>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- Pagination -->
-    <div class="card">
-      <ul class="pagination">
-        <li class="pagination__item">
-          <a href="#" class="pagination__link pagination__first" disabled>
-            First
-          </a>
-        </li>
-        <li class="pagination__item">
-          <a href="#" class="pagination__link pagination__prev">
-            Previous
-          </a>
-        </li>
-        <li class="pagination__item pagination__item--current">
-          <span>1</span>/6
-        </li>
-        <li class="pagination__item">
-          <a href="#" class="pagination__link pagination__next">
-            Next
-          </a>
-        </li>
-        <li class="pagination__item">
-          <a href="#" class="pagination__link pagination__last">
-            Last
-          </a>
-        </li>
-      </ul>
-    </div>
-
-
-    <!-- Manage -->
-    <div>
-      <ul class="manage-buttons">
-        <li class="manage-buttons__item">
-          <a href="#" class="manage-buttons__link">
-            <div class="manage-buttons__inner">
-              <div class="manage-buttons__icon">
-                <Icon icon="star" />
-              </div>
-              Roles
-            </div>
-          </a>
-        </li>
-        <li class="manage-buttons__item">
-          <a href="#" class="manage-buttons__link">
-            <div class="manage-buttons__inner">
-              <div class="manage-buttons__icon">
-                <Icon icon="lock" />
-              </div>
-              Permissions
-            </div>
-          </a>
-        </li>
-        <li class="manage-buttons__item">
-          <a href="#" class="manage-buttons__link">
-            <div class="manage-buttons__inner">
-              <div class="manage-buttons__icon">
-                <Icon icon="person" />
-              </div>
-              Users
-            </div>
-          </a>
-        </li>
-        <li class="manage-buttons__item">
-          <a href="#" class="manage-buttons__link">
-            <div class="manage-buttons__inner">
-              <div class="manage-buttons__icon">
-                <Icon icon="person" />
-              </div>
-              KEEs
-            </div>
-          </a>
-        </li>
-        <li class="manage-buttons__item">
-          <a href="#" class="manage-buttons__link">
-            <div class="manage-buttons__inner">
-              <div class="manage-buttons__icon">
-                <Icon icon="location" />
-              </div>
-              Engagement
-            </div>
-          </a>
-        </li>
-        <li class="manage-buttons__item">
-          <a href="#" class="manage-buttons__link">
-            <div class="manage-buttons__inner">
-              <div class="manage-buttons__icon">
-                <Icon icon="sliders" />
-              </div>
-              Evaluate
-            </div>
-          </a>
-        </li>
-      </ul>
     </div>
   </app-layout>
 </template>
@@ -1862,72 +356,65 @@ Dashboard
 <script>
 import AppLayout from '@/Layouts/AppLayout.vue'
 import Welcome from '@/Jetstream/Welcome.vue'
-import Icon from '@/Components/Icons.vue';
+import Icons from '@/Components/Icons.vue';
 import EngagementForm from '@/Pages/LeicaComponent/Engagement/EngagementForm.vue';
+import moment from "moment";
+import DeleteModal from '@/Components/DeleteModal.vue';
+import Pagination from "./LeicaComponent/Pagination";
 
 export default {
   components: {
     AppLayout,
     Welcome,
-    Icon,
-    EngagementForm
+    Icons,
+    EngagementForm,
+    DeleteModal,
+    Pagination
   },
-
+  props: {
+    AuthUser: Object,
+    upcoming_engagement: Object,
+    country: Array,
+    details: Array,
+    plan_engagement_quarter: String,
+    attended_engagement_quarterly: String,
+    total_per_quarter: String,
+    grade: String,
+    kees: String,
+    year: String,
+    total_per_year: String,
+    yearly_attendance: String,
+    yearly_engagement: String,
+    total_rank: Object,
+    yearly_engagement_percentage: Object,
+    quarter_name: String,
+    quarter_engagement_percentage: String,
+    yearly_grade_percentage: String,
+  },
   data () {
     return {
-      modalActive: false
+      logInStatus: false,
+      modalActive: false,
     }
   },
 
   methods: {
-    setBackgroundSize() {
-      const charts = document.querySelectorAll('.profile-chart__graph')
-
-      if (charts) {
-        charts.forEach(chart => {
-          let width = chart.clientWidth
-
-          chart.querySelector('span').style.backgroundSize = width + 'px'
-        })
-      }
-    },
-    changeChart(element) {
-      const parentEl = element.parentElement
-      const siblingEl = parentEl.previousSibling
-      const percentage = element.options[element.options.selectedIndex].dataset['percentage']
-
-      siblingEl.querySelector('.profile-chart__bar').style.width = percentage
-    },
-    onChartChange(event) {
-      this.changeChart(event.target)
-    },
-    showModal() {
+    deleteRow(link) {
+      this.deleteId = link
       this.modalActive = true
     },
-    hideModal() {
+    hideModal () {
       this.modalActive = false
-    }
-  },
-
-  mounted () {
-    this.setBackgroundSize()
-
-    window.addEventListener('resize', this.setBackgroundSize)
-
-    const chartsSelect = document.querySelectorAll('.chart-select')
-
-    chartsSelect.forEach(select => {
-      this.changeChart(select)
-    })
-
-    const charts = document.querySelectorAll('.profile-chart__bar--empty')
-
-    setTimeout(() => {
-      charts.forEach(chart => {
-        chart.classList.remove('profile-chart__bar--empty')
-      })
-    }, 300);
+      this.deleteId = false
+    },
+    dateTime: function (date) {
+      return moment(date).format('DD-MM-YYYY');
+    },
+    logInCheck() {
+      if (this.AuthUser) {
+        return this.logInStatus = true;
+      }
+    },
   }
 }
 </script>
-

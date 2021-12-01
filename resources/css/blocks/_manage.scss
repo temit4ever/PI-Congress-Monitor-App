@@ -4,6 +4,7 @@
 
 .manage-buttons {
     @include grid_container(1.5rem);
+    margin-top: 4rem;
 }
 
     .manage-buttons__item {
@@ -64,8 +65,8 @@
         margin-bottom: 2rem;
 
         svg {
-            width: 5rem;
-            height: auto;
+            width: auto;
+            height: 5rem;
         }
         
         path,

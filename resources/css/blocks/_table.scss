@@ -18,7 +18,27 @@
     }
 
     td {
-        padding: 1rem 1.5rem;
+        padding: 0.75rem 1.25rem;
+    }
+
+    .table__heading {
+        tr:not(.table__spacer) {
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        th {
+            font-size: 1.6rem;
+            font-weight: normal;
+            padding: 0 0 2rem;
+            border-bottom: 0.2rem solid rgba($c-darkest-grey, 0.25);
+        }
+
+        + thead {
+            th {
+                padding-top: 3rem;
+            }
+        }
     }
 }
 
@@ -28,7 +48,6 @@
 }
 
 .table--border {
-
     td {
         border-top: 0.1rem solid $c-darkest-grey;
     }
@@ -44,11 +63,18 @@
         }
     }
 
+    .table__spacer--tall {
+        td {
+            padding: 1rem 0.5rem;
+        }
+    }
+
     .table__buttons {
         width: 0;
     }
 
     .table__icon {
+        position: relative;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -59,6 +85,7 @@
         background: $c-light-purple;
         border-radius: 1.2rem;
         vertical-align: middle;
+        overflow: hidden;
 
         svg {
             display: block;
@@ -82,9 +109,145 @@
                 stroke: $c-lightest;
             }
         }
+
+        img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     }
 
     .table__cell-with-icon {
         display: flex;
         align-items: center;
     }
+    
+    .table__cell--center {
+        text-align: center;
+    }
+
+    .table__row--border {
+        position: relative;
+
+        th,
+        td {
+            &:not(:last-child):not(.no-border) {
+                position: relative;
+
+                &::after {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    top: 1rem;
+                    right: 0;
+                    bottom: 1rem;
+                    border-right: 0.1rem solid rgba($c-darkest-grey, 0.25);
+                }
+            }
+            &:last-child:not(.no-border) {
+                tbody & {
+                    position: relative;
+
+                    &::after {
+                        content: '';
+                        display: block;
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        bottom: 0.1rem;
+                        width: 100%;
+                        background: linear-gradient(90deg, rgba($c-lightest, 0), $c-lightest 70%);
+                    }
+                }
+            }
+        }
+    }
+
+    .table__header-sticky {
+        position: sticky;
+        top: 0;
+        background: $c-lightest;
+        z-index: 1;
+    }
+
+    .table__body {
+        border-radius: 1.5rem;
+        box-shadow: 0.2rem 0.2rem 0.6rem rgba($c-black, 0.16);
+
+        tr:not(.table__spacer) {
+            border-radius: 0;
+            box-shadow: none;
+        }
+        
+        td {
+            position: relative;
+            padding-top: 1.2rem;
+            padding-bottom: 1.2rem;
+
+            &::before {
+                content: '';
+                display: block;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                border-bottom: 0.1rem solid rgba($c-darkest-grey, 0.25);
+            }
+
+            &:first-child {
+                &::before {
+                    left: 0.75rem;
+                }
+            }
+
+            &:last-child {
+                &::before {
+                    right: 0.75rem;
+                }
+            }
+        }
+
+        tr {
+            &:last-child {
+                td {
+                    &::before {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
+.table-arrow {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: 1.8rem;
+    height: 1.8rem;
+    background: $c-purple;
+    border-radius: 5rem;
+    text-indent: -999rem;
+
+    &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url(../../images/arrow-left.svg) no-repeat 47% 50%;
+    }
+
+    &.is-disabled {
+        opacity: 0.22;
+        cursor: default;
+    }
+}
+
+.table-arrow--next {
+    &::before {
+        transform: scaleX(-1);
+    }
+}

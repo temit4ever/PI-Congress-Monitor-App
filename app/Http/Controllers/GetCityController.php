@@ -17,7 +17,7 @@ class GetCityController extends Controller
     {
       $cities = State::whereIn('country_id', [$request->term])->get();
       $cities = GetCityResource::collection($cities->sortBy('id'));
-     $option = "<option value=''  selected disabled>Select State</option>";
+     $option = "<option value=''  selected disabled>Select City</option>";
      foreach ($cities as $city ) {
        $option .='<option value="' . $city->name . '">' . $city->name . '</option>';
      }

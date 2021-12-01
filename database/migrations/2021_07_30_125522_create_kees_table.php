@@ -17,14 +17,15 @@ class CreateKeesTable extends Migration
           $table->increments('id');
           $table->integer('user_id')->unsigned()->index()->nullable();
           $table->string('title')->nullable();
-          $table->string('specialism')->nullable();
           $table->string('firstname')->nullable();
           $table->string('lastname')->nullable();
           $table->string('email')->nullable();
-          $table->string('office_name')->nullable();
-          $table->string('country_id')->nullable();
+          $table->string('specialism')->nullable();
+          $table->string('place_of_work')->nullable();
           $table->string('city')->nullable();
+          $table->string('country')->nullable();
           $table->string('h1_link')->nullable();
+          $table->string('country_id')->nullable();
           $table->string('kee_photo_path', 1024)->nullable();
           $table->softDeletes();
           $table->timestamps();

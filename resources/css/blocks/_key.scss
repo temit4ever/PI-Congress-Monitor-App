@@ -1,0 +1,39 @@
+/*------------------------------------*\
+    Key
+\*------------------------------------*/
+
+.key {
+    display: flex;
+    margin-bottom: 3rem;
+}
+
+    .key__item {
+        display: flex;
+        align-items: center;
+        margin-right: 2.4rem;
+        font-size: 0.8rem;
+    }
+
+    .key__dot {
+        display: block;
+        width: 2.3rem;
+        height: 2.3rem;
+        margin-right: 0.7rem;
+        border-radius: 5rem;
+    }
+
+    .key__dot--attended {
+        background: $c-green;
+    }
+
+    .key__dot--absent {
+        background: $c-red;
+    }
+
+    .key__dot--planned {
+        background: $c-orange;
+    }
+
+    .key__dot--unknown {
+        background: $c-light-purple;
+    }

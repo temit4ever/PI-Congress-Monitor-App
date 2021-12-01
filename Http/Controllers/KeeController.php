@@ -77,7 +77,7 @@ class KeeController extends Controller
         'firstname' => $request->firstname,
         'lastname' => $request->lastname,
         'email' => $request->email,
-        'office_name' => $request->office_name,
+        'place_of_work' => $request->place_of_work,
         'country_id' => $request->country_id,
         'city' => $request->city,
         'specialism' => $request->specialism,

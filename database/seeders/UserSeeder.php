@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
     public function run()
     {
       // Create Super admin credential
-      $user = User::create([
+     /* $user = User::create([
         'title' => 'Mr.',
         'firstname' => 'Cygnus',
         'lastname' => 'Super-admin',
@@ -105,7 +105,7 @@ class UserSeeder extends Seeder
       $user->role_id = 3;
       $user->save();
       $role = Role::where('name', 'Member')->pluck('id');
-      $user->assignRole($role);
+      $user->assignRole($role);*/
 
 // Get user with specific role
       /*$d = User::whereHas('Roles', function($query) {

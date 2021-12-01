@@ -37,6 +37,7 @@ class User extends Authenticatable implements HasMedia
     'lastname',
     'email',
     'password',
+    'confirm_password',
     'role_id',
     'profile_photo_path'
   ];
@@ -47,10 +48,11 @@ class User extends Authenticatable implements HasMedia
      * @var array
      */
     protected $hidden = [
-        'password',
-        'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
+      'password',
+      'confirm_password',
+      'remember_token',
+      'two_factor_recovery_codes',
+      'two_factor_secret',
     ];
 
     /**
@@ -97,11 +99,15 @@ class User extends Authenticatable implements HasMedia
 
   public function hasRole($role): bool
   {
-    //dd($role);
-    if ($this->whereIn('status', $role)) {
-      return true;
+    $value = [];
+    $status = $this->where('status', $role)->get();
+    foreach ($status as $name) {
+      // Check if current login user has same role as the one passed.
+      if (Auth::user()->status == $name->status)
+      $value[] = $name->status;
     }
-    return false;
+
+     return !empty($value);
   }
 
   public function assignRole($role) {

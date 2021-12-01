@@ -6,18 +6,32 @@ use App\Http\Resources\EngagementResource;
 use App\Models\Engagement;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class CompletedEngagementController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Inertia\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-      $completed = Engagement::whereDate('calendar_date', '<', Carbon::now())->get();
-      return EngagementResource::collection($completed->sortByDesc('created_at'));
+      $is_super_admin = auth()->user()->hasRole('super-admin');
+      $is_admin = auth()->user()->hasRole('admin');
+      if (Auth::check() && ($is_admin || $is_super_admin)) {
+        $completed = Engagement::whereDate('calendar_date', '<', Carbon::now())->orderBy('calendar_date', 'ASC')
+          ->with('kees')
+          ->latest()->paginate(10)->appends($request->all());
+        //dd($completed);
+        return Inertia::render('LeicaComponent/Rank/RankList', [
+          'completed_list' => $completed
+        ]);
+      }
+      else {
+        return Inertia::render('LeicaComponent/Error/ErrorPage');
+      }
     }
 
     /**
@@ -79,10 +93,27 @@ class CompletedEngagementController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        //
+      $is_super_admin = auth()->user()->hasRole('super-admin');
+      $is_admin = auth()->user()->hasRole( 'admin');
+      if ($is_admin || $is_super_admin) {
+        if (isset($id)){
+          $engagement = Engagement::find($id);
+          if (empty($engagement)) {
+            return Inertia::render('LeicaComponent/Error/ItemNotFound');
+          }
+          $engagement->delete();
+          return redirect()->back();
+        }
+        else {
+          return Inertia::render('LeicaComponent/Error/ItemNotFound');
+        }
+      }
+      else {
+        return Inertia::render('LeicaComponent/Error/ErrorPage');
+      }
     }
 }

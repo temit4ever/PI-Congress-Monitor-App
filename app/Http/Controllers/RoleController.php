@@ -17,8 +17,15 @@ class RoleController extends Controller
      */
     public function index()
     {
-      $role = RoleResource::collection(Role::all());
-      return Inertia::render('LeicaComponent/RolesPermission/Roles', ['roles' => $role]);
+      $is_super_admin = auth()->user()->hasRole('super-admin');
+      $is_admin = auth()->user()->hasRole('admin');
+      if ($is_admin || $is_super_admin) {
+        $role = RoleResource::collection(Role::all());
+        return Inertia::render('LeicaComponent/RolesPermission/Roles', ['roles' => $role]);
+      }
+      else {
+        return Inertia::render('LeicaComponent/Error/ErrorPage');
+      }
     }
 
     /**

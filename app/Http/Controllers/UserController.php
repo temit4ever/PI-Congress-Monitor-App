@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -26,24 +27,29 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-      $id = Auth::id();
-
-      $term = trim($request->term);
-      if (!empty($request->term)) {
-        $user = User::where('firstname', 'LIKE', '%' . $term)
-          ->orWhere('lastname', 'LIKE', '%' . $term .'%')
-          ->orWhere('email', 'LIKE', '%' . $term . '%')
-          ->where('id', '=', $id)
-          ->paginate();
-
-        $user = UserResource::collection($user->sortByDesc('created_at'));
+      $is_super_admin = auth()->user()->hasRole('super-admin');
+      $is_admin = auth()->user()->hasRole( 'admin');
+      if ($is_admin || $is_super_admin) {
+        $term = trim($request->term);
+        $user = User::where('id', '!=', auth()->user()->id);
+        if ( !$is_super_admin ){
+          $user = $user->where('role_id', '>', 1);
+        }
+        if (!empty($term)) {
+            $user = $user->where(function ($query) use ($term) {
+              $query
+                ->orWhere('lastname','LIKE',  '%' . $term . '%')
+                ->orWhere('firstname', 'LIKE', '%' . $term . '%')
+                ->orWhere('email', 'LIKE', '%' . $term . '%');
+            });
+        }
+        $user = $user->with('roles')->latest()->paginate(10)->appends($request->all());
+        return Inertia::render('LeicaComponent/User/UserList', [
+          'user_lists' => $user,
+        ]);
+      }else {
+        return Inertia::render('LeicaComponent/Error/ErrorPage');
       }
-      else {
-        $user = UserResource::collection(User::whereNotIn('id', [$id])->get()->sortByDesc('created_at'));
-      }
-      return Inertia::render('LeicaComponent/User/UserList', [
-        'user_lists' => $user,
-      ]);
 
     }
 
@@ -54,25 +60,22 @@ class UserController extends Controller
      */
     public function create()
     {
-      //dd(Auth::user()->role_id);
-      $current_user = Auth::user();
-     // dd( $current_user->role_id);
-      $roles = Role::all();
-      //$role_new = [];
-      foreach ($roles as $role){
-        //dd($role->name );
-       if ($current_user->role_id == $role->id && $role->name == 'Admin') {
-         $role_new[2] = 'Admin';
-         $role_new[3] = 'Member';
-         //dd($role_new);
-       }
-       //d($role_new);
-      }
-      $role_new = Role::all();
+      $is_super_admin = auth()->user()->hasRole('super-admin');
+      $is_admin = auth()->user()->hasRole('admin');
+      if ($is_admin || $is_super_admin) {
+        $role = Role::all()->toArray();
+        if ($is_admin) {
+          unset($role[0]);
+        }
         return Inertia::render('LeicaComponent/User/UserForm',
-        ['roles' => $role_new,
-          'authUser' => Auth::user()
-        ]);
+          ['roles' => $role,
+            'authUser' => Auth::user()
+          ]);
+      }
+      else {
+        return Inertia::render('LeicaComponent/Error/ErrorPage');
+      }
+
     }
 
     /**
@@ -83,8 +86,9 @@ class UserController extends Controller
      */
     public function store(Request $request): \Inertia\Response
     {
-      $user = null;
-      if (auth()->user()->hasRole(['super-admin', 'admin'])) {
+      $is_super_admin = auth()->user()->hasRole('super-admin');
+      $is_admin = auth()->user()->hasRole( 'admin');
+      if ($is_admin || $is_super_admin) {
 
         $this->user_validation($request);
 
@@ -114,22 +118,25 @@ class UserController extends Controller
             $user->status = 'member';
         }
         $user->save();
-        //dd($request);
         if ($request->hasFile('avatar')) {
           $user->addMedia($request->avatar)
             ->toMediaCollection('media');
           $user->profile_photo_path = $user->getFirstMedia('media')->getUrl();
           $user->save();
         }
-      }
+        // Send Notification to new created user
+        // This was disabled because, the client didn't want to commit to using direct email contact to created user
+       /* if ($user) {
+          $user->password = $request->password;
+          Notification::send($user, new WelcomeAdmin($user));
+        }*/
 
-      // Send Notification to new created user
-      if ($user) {
-        $user->password = $request->password;
-        Notification::send($user, new WelcomeAdmin($user));
 
+        return inertia::render('LeicaComponent/User/UserAddEditConfirmation', ['current_user' => $user ]);
       }
-      return inertia::render('LeicaComponent/User/UserAddEditConfirmation');
+      else {
+        return Inertia::render('LeicaComponent/Error/ErrorPage');
+      }
     }
 
     /**
@@ -140,9 +147,16 @@ class UserController extends Controller
      */
     public function show($id)
     {
-      if (auth()->user()->hasRole(['super-admin', 'admin'])) {
-        $user = User::with('roles')->find($id);
-        return Inertia::render('LeicaComponent/User/UserDetails', ['user' => $user]);
+      $is_super_admin = auth()->user()->hasRole('super-admin');
+      $is_admin = auth()->user()->hasRole('admin');
+      $is_member = auth()->user()->hasRole('member');
+      if ($is_admin || $is_super_admin || $is_member) {
+          $user = User::with('roles')->find($id);
+          if (empty($user)) {
+            return Inertia::render('LeicaComponent/Error/ItemNotFound');
+          }
+
+          return Inertia::render('LeicaComponent/User/UserDetails', ['user_details' => $user]);
       }
     }
 
@@ -155,11 +169,20 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-      if (auth()->user()->hasRole(['super-admin', 'admin'])) {
+      $is_super_admin = auth()->user()->hasRole('super-admin');
+      $is_admin = auth()->user()->hasRole( 'admin');
+      $is_member = auth()->user()->hasRole('member');
+      if ($is_admin || $is_super_admin || $is_member) {
+        $role = Role::all()->toArray();
+        if ($is_admin) {
+          unset($role[0]);
+        }
         $user = User::with('roles')->find($id);
+        //dd($user);
         return Inertia::render('LeicaComponent/User/UserEditForm',
-          ['user_details' => $user, 'roles' => Role::all()]);
+          ['user_details' => $user, 'roles' => $role]);
       }
+      return Inertia::render('LeicaComponent/Error/ItemNotFound');
     }
   /**
    * Update the specified resource in storage.
@@ -170,40 +193,49 @@ class UserController extends Controller
    */
     public function update(Request $request)
     {
-
-      try {
-        $update = User::find($request->id);
-        $update->update($request->all());
-        $update->password = bcrypt($request->password);
-        $role_id = Role::find($request->role_id);
-        if (isset($role_id)) {
-          $update->assignRole($role_id);
-        }
-        switch ($role_id->id) {
-          case 1:
-            $update->status = 'super-admin';
-            break;
-          case 2:
-            $update->status = 'admin';
-            break;
-          default:
-            $update->status = 'member';
-        }
-        $update->save();
-
-        // dd($request->avatar);
-        if ($request->hasFile('avatar')) {
-          $update->clearMediaCollection('media');
-          $update->addMedia($request->avatar)->toMediaCollection('media');
-          $update->profile_photo_path = $update->getFirstMedia('media')->getUrl();
+      $is_super_admin = auth()->user()->hasRole('super-admin');
+      $is_admin = auth()->user()->hasRole( 'admin');
+      $is_member = auth()->user()->hasRole( 'member');
+      if (Auth::check() && ($is_admin || $is_super_admin || $is_member)) {
+        $this->user_validation($request);
+          $update = User::find($request->id);
+          $updated_id = $update->id;
+          $update->update($request->only([
+            'title',
+            'firstname',
+            'lastname',
+            'email',
+            'password',
+            'role_id'
+          ]));
+          $update->password = bcrypt($request->password);
+          $role_id = Role::find($request->role_id);
+          if (isset($role_id)) {
+            $update->assignRole($role_id);
+          }
+          switch ($role_id->id) {
+            case 1:
+              $update->status = 'super-admin';
+              break;
+            case 2:
+              $update->status = 'admin';
+              break;
+            default:
+              $update->status = 'member';
+          }
           $update->save();
-        }
 
-        return inertia::render('LeicaComponent/User/UserAddEditConfirmation');
-      } catch (\Exception $exception) {
-        return Inertia::render('LeicaComponent/Exception/GeneralException');
+          if ($request->hasFile('avatar')) {
+            $update->clearMediaCollection('media');
+            $update->addMedia($request->avatar)->toMediaCollection('media');
+            $update->profile_photo_path = $update->getFirstMedia('media')->getUrl();
+            $update->save();
+          }
+          return inertia::render('LeicaComponent/User/UserAddEditConfirmation', ['updated_id' => $updated_id]);
       }
-
+      else {
+        return Inertia::render('LeicaComponent/Error/ErrorPage');
+      }
 
     }
 
@@ -215,12 +247,17 @@ class UserController extends Controller
      */
     public function delete($id)
     {
-      if (auth()->user()->hasRole(['super-admin', 'admin'])) {
+      $is_super_admin = auth()->user()->hasRole('super-admin');
+      $is_admin = auth()->user()->hasRole( 'admin');
+      if ($is_admin || $is_super_admin) {
       $user = User::find($id);
       if ($user) {
         $user->delete();
         return Redirect::route('user.index');
       }
+      }
+      else {
+        return Inertia::render('LeicaComponent/Error/ErrorPage');
       }
     }
 
@@ -232,14 +269,20 @@ class UserController extends Controller
   public function user_validation($request) {
       $request->validate(
         [
-          'title' => 'filled|string|min:2|max:20',
-          'firstname' => 'filled|string|min:2|max:20',
-          'lastname' => 'filled|string|min:2|max:20',
-          'email' => 'filled|email',
-          'role_id' => 'filled',
+          'firstname' => 'required|min:2|max:20',
+          'lastname' => 'required|min:2|max:20',
+          'email' => 'required|email:rfc,filter,dns',
+          'role_id' => 'required',
           'password' => [
-            'filled',
-            'string',],
+            'required',
+            Password::min(6)->letters()->numbers()->symbols()
+          ],
+          'confirm_password' => [
+            'required',
+            'same:password',
+            Password::min(6)->letters()->numbers()->symbols()
+          ]
+
         ]
       );
     }

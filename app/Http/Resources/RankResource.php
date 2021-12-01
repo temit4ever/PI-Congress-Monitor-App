@@ -20,6 +20,8 @@ class RankResource extends JsonResource
         'understanding_data' => $this->understanding_data,
         'commitment' => $this->commitment,
         'performance_delivery' => $this->performance_delivery,
+        'attendance' => $this->attendance,
+        'rank' => $this->rank,
         'fluara' => $this->fluara,
         'fluara_2' => $this->fluara_2,
         'mykonos' => $this->mykonos,

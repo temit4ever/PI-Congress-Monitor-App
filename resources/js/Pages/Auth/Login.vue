@@ -5,9 +5,6 @@
             <h2>
                 Welcome
             </h2>
-            <p>
-                Omnis dio. Lorectatur? Luptatquibus parum renditi…
-            </p>
         </template>
         <jet-authentication-card>
 
@@ -45,7 +42,7 @@
                             </jet-button>
                         </div>
                         <div class="form__item">
-                            <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
+                            <Link v-if="canResetPassword && showForgotPassword" :href="route('password.request') " class="underline text-sm text-gray-600 hover:text-gray-900">
                                 Forgot your password?
                             </Link>
                         </div>
@@ -93,7 +90,8 @@
                     password: '',
                     remember: false
                 }),
-                showPassword: false
+                showPassword: false,
+              showForgotPassword: false
             }
         },
 

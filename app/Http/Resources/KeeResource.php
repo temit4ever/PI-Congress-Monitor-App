@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class KeeResource extends JsonResource
 {
@@ -14,6 +16,7 @@ class KeeResource extends JsonResource
      */
     public function toArray($request)
     {
+      //dd($this);
       return [
         'id' => (int) $this->id,
         'user_id' => (int) $this->user_id,
@@ -22,14 +25,16 @@ class KeeResource extends JsonResource
         'firstname' => $this->firstname,
         'lastname' => $this->lastname,
         'email' => $this->email,
-        'office_name' => $this->office_name,
+        'affiliate' => $this->affiliate,
         'city' => $this->city,
-        'country_id' => $this->country,
+        'country_id' => $this->country_id,
+        'country' => $this->country,
         'avatar' => $this->kee_photo_path,
         'created_at' => $this->created_at,
         'updated_at' => $this->updated_at,
         'h1_link' => $this->hi_link,
-        'kee_photo_path' => $this->avatar
+        'kee_photo_path' => $this->avatar,
+        'current_page'=> $this->current_page,
       ];
         return parent::toArray($request);
     }

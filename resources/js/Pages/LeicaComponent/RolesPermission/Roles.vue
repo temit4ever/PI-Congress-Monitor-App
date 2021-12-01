@@ -1,12 +1,9 @@
 <template>
-  <app-layout title="Users">
+  <app-layout title="Roles" :auth-user="user">
     <template #header>
       <h2>
         Roles
       </h2>
-      <p>
-        Omnis dio. Lorectatur? Luptatquibus parum renditi…
-      </p>
     </template>
     <div class="card card--narrow">
       <div class="card__heading">
@@ -46,6 +43,7 @@ export default {
   },
   props: {
     roles: Object,
+    user: Object,
   }
 }
 </script>

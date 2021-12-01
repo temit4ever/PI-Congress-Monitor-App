@@ -17,7 +17,9 @@ class Rank extends Model
       'commitment',
       'performance_delivery',
       'clinical_trial',
-      'fluara',
+      'attendance',
+      'rank',
+      'flaura',
       'mykonos',
       'elios',
       'savannah',
@@ -27,13 +29,27 @@ class Rank extends Model
       'adaura',
       'neo_adaura',
       'st1_adaura',
+      'flauraStudy',
+      'investigator_in_study',
       'target',
       'laura',
-      'kee_id'
+      'kee_id',
+      'engagement_id',
+      'is_evaluated',
     ];
 
-  public function kees(){
-    return $this->hasMany(Kee::class, 'id');
+  public function kees(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+  {
+    return $this->belongsToMany(Kee::class) ;
+  }
+
+  public function assignKeeToRank($kee_id) {
+    $this->kees()->attach($kee_id);
+  }
+
+  public function engagements(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+  {
+    return $this->belongsTo(Engagement::class);
   }
 }
 

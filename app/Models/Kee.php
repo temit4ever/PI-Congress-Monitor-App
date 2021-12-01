@@ -16,26 +16,24 @@ class Kee extends Model implements HasMedia
   use InteractsWithMedia;
 
   protected $fillable = [
+    'user_id',
     'title',
     'firstname',
     'lastname',
     'email',
-    'office_name',
-    'country_id',
+    'place_of_work',
+    'country',
     'city',
-    'avatar',
+    'kee_photo_path',
     'h1_link',
     'specialism',
+    'country_id',
   ];
 
 
-  public function engagements(): \Illuminate\Database\Eloquent\Relations\HasMany
+  public function engagements(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
   {
-    // Get the records of each kee that is attached to an engagement
-    $related = $this->hasMany(Engagement::class);
-    $related->setQuery(
-      Kee::whereIn('id', $this->kee_id)->getQuery()
-    )->withTimestamp();
+    return $this->belongsToMany(Engagement::class);
   }
 
   public function ranks(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -52,5 +50,15 @@ class Kee extends Model implements HasMedia
   {
     return $this->belongsTo(User::class);
   }
+
+  // this is the recommended way for declaring event handlers
+  public static function boot() {
+    parent::boot();
+    self::deleting(function($kee) { // before delete() method call this
+      $kee->ranks()->each(function($rank) {
+        $rank->delete(); // <-- direct deletion
+      });
+    });
+    }
 
 }

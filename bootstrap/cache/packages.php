@@ -1,15 +1,4 @@
 <?php return array (
-  'facade/ignition' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Facade\\Ignition\\IgnitionServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Flare' => 'Facade\\Ignition\\Facades\\Flare',
-    ),
-  ),
   'fideloper/proxy' => 
   array (
     'providers' => 
@@ -53,13 +42,6 @@
       'Agent' => 'Jenssegers\\Agent\\Facades\\Agent',
     ),
   ),
-  'laravel/breeze' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Laravel\\Breeze\\BreezeServiceProvider',
-    ),
-  ),
   'laravel/fortify' => 
   array (
     'providers' => 
@@ -72,13 +54,6 @@
     'providers' => 
     array (
       0 => 'Laravel\\Jetstream\\JetstreamServiceProvider',
-    ),
-  ),
-  'laravel/sail' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Laravel\\Sail\\SailServiceProvider',
     ),
   ),
   'laravel/sanctum' => 
@@ -95,15 +70,15 @@
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
     ),
   ),
-  'nascent-africa/jetstrap' => 
+  'maatwebsite/excel' => 
   array (
     'providers' => 
     array (
-      0 => 'NascentAfrica\\Jetstrap\\JetstrapServiceProvider',
+      0 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
     ),
     'aliases' => 
     array (
-      'Jetstrap' => 'NascentAfrica\\Jetstrap\\JetstrapFacade',
+      'Excel' => 'Maatwebsite\\Excel\\Facades\\Excel',
     ),
   ),
   'nesbot/carbon' => 
@@ -111,13 +86,6 @@
     'providers' => 
     array (
       0 => 'Carbon\\Laravel\\ServiceProvider',
-    ),
-  ),
-  'nunomaduro/collision' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     ),
   ),
   'spatie/laravel-medialibrary' => 

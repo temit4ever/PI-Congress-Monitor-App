@@ -91,8 +91,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'tayo@cygnus.co.uk'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'example@cygnus.com'), // Dont push this to either stage or live. They have there own different address
+        'name' => env('MAIL_FROM_NAME', 'LEAD Admin'),
     ],
 
     /*

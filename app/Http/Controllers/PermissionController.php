@@ -16,9 +16,17 @@ class PermissionController extends Controller
      */
     public function index()
     {
+      $is_super_admin = auth()->user()->hasRole('super-admin');
+      $is_admin = auth()->user()->hasRole('admin');
+      if ($is_admin || $is_super_admin) {
         $perm = PermissionResource::collection(Permission::all());
         return Inertia::render('LeicaComponent/RolesPermission/Permissions', ['permissions' => $perm]);
+      }
+      else {
+        return Inertia::render('LeicaComponent/Error/ErrorPage');
+      }
     }
+
 
     /**
      * Show the form for creating a new resource.

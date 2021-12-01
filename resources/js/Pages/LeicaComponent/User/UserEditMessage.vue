@@ -1,9 +1,9 @@
 <template>
-  <app-layout title="Users">
+  <app-layout title="Users" :auth-user="user">
     <template #header>
       <h2>Users</h2>
       <p>
-        Omnis dio. Lorectatur? Luptatquibus parum renditi…
+        Add / Edit / Delete AstraZeneca users
       </p>
     </template>
 
@@ -23,6 +23,9 @@ export default {
   name: "UserEditMessage.vue",
   components:{
     AppLayout
+  },
+  props: {
+    user: Object,
   }
 }
 </script>

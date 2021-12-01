@@ -4,9 +4,6 @@
   <h2>
     User
   </h2>
-  <p>
-    Omnis dio. Lorectatur? Luptatquibus parum renditi…
-  </p>
 </template>
   <p>User not Found</p>
 </app-layout>

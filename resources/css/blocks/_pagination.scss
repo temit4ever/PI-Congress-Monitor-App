@@ -6,6 +6,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 2rem;
 }
 
     .pagination__item {
@@ -79,4 +80,28 @@
                 z-index: -1;
             }
         }
+    }
+
+.pagination-dots {
+    display: flex;
+}
+
+    .pagination-dots__item {
+        margin-right: 1rem;
+
+        &.is-active {
+            .pagination-dots__link {
+                background: $c-purple;
+            }
+        }
+    }
+
+    .pagination-dots__link {
+        display: block;
+        width: 0.7rem;
+        height: 0.7rem;
+        border-radius: 1rem;
+        background: $c-light-purple;
+        overflow: hidden;
+        text-indent: -999rem;
     }

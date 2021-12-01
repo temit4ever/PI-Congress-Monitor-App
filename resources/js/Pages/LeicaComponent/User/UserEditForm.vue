@@ -1,11 +1,11 @@
 <template>
-  <app-layout title="Users">
+  <app-layout title="Users" :auth-user="user">
     <template #header>
       <h2>
         User
       </h2>
       <p>
-        Omnis dio. Lorectatur? Luptatquibus parum renditi…
+        Add / Edit / Delete AstraZeneca users
       </p>
     </template>
 
@@ -14,24 +14,28 @@
         <h2 class="card__title">
           Edit Admin
         </h2>
+        <div class="card__heading">
+          <button  onclick="window.history.back();" class="button button--small user-edit-back-heading-space">
+           Back
+          </button>
+        </div>
         <div  class="card__heading-button">
-          <form class="form" @submit.prevent="submitUpdate" method="POST" action="{{route('user.update')}}" enctype="multipart/form-data">
+          <form class="form" @submit.prevent="submitUserUpdate" method="POST" enctype="multipart/form-data">
             <div class="card__heading">
-              <button type="submit" class="button">
+              <button type="submit" class="button button--small" @click="changeValue();" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 Save
               </button>
             </div>
           </form>
         </div>
       </div>
-      <form>
+      <form class="form-loader" id="form-loader-id" :class="{'is-loading': isLoading }">
         <div class="form-split">
           <div class="form-split__item">
             <transition name="fade-form-element">
               <div class="form__item">
-                <div class="form__input form__required">
+                <div class="form__input">
                   <input type="text" placeholder="Title" v-model="form.title">
-                  <p class="" style="margin-top: 1em; color: red" v-if="$attrs.errors.title">{{ $attrs.errors.title }}</p>
                 </div>
               </div>
             </transition>
@@ -40,7 +44,9 @@
               <div class="form__item">
                 <div class="form__input form__required">
                   <input type="text" placeholder="Firstname" v-model="form.firstname">
-                  <p class="" style="margin-top: 1em; color: red" v-if="$attrs.errors.firstname">{{$attrs.errors.firstname}}</p>
+                  <div class="form__errors" v-if="errors.firstname">
+                      <p>{{ errors.firstname }}</p>
+                  </div>
                 </div>
               </div>
             </transition>
@@ -48,15 +54,26 @@
               <div class="form__item">
                 <div class="form__input form__required">
                   <input type="text" placeholder="Lastname" v-model="form.lastname">
-                  <p class="" style="margin-top: 1em; color: red" v-if="$attrs.errors.lastname">{{$attrs.errors.lastname}}</p>
+                  <div class="form__errors" v-if="errors.lastname">
+                      <p>{{errors.lastname}}</p>
+                  </div>
                 </div>
               </div>
             </transition>
             <div class="form__item">
               <label for="avatar" class="form__upload">
                 <input type="file" id="avatar" name="avatar" @change="selectFile($event)">
-                Upload Photo
+                <p class="upload--space">Upload Photo</p>
               </label>
+              <div class="profile-image">
+                <img v-if="user_details.profile_photo_path && user_details.profile_photo_path !== 'placeholder-profile.jpg'"
+                     id="preview-previous-avatars" :src="user_details.profile_photo_path"
+                />
+                <img id="preview-avatar" />
+              </div>
+              <div class="form__errors" v-if="errors.avatar">
+                <p>{{errors.avatar}}</p>
+              </div>
             </div>
           </div>
           <div class="form-split__item">
@@ -69,24 +86,39 @@
                   <option :value="role.id" v-for="role in roles" :key="role.id">
                     {{ role.name }}
                   </option>
-                  <p class="" style="margin-top: 1em; color: red" v-if="$attrs.errors.role_id">{{$attrs.errors.role_id}}</p>
-
                 </select>
-              </div>
-            </transition>
-            <transition name="fade-form-element">
-              <div class="form__item">
-                <div class="form__input form__required">
-                  <input type="email" name="email" id="email" placeholder="Email" v-model="form.email">
-                  <p class="" style="margin-top: 1em; color: red" v-if="$attrs.errors.email">{{$attrs.errors.email}}</p>
+                <div class="form__errors" v-if="errors.role_id">
+                  <p>{{errors.role_id}}</p>
                 </div>
               </div>
             </transition>
             <transition name="fade-form-element">
               <div class="form__item">
                 <div class="form__input form__required">
-                  <input type="password" name="password" id="password" placeholder="Password" v-model="form.password">
-                  <p class="" style="margin-top: 1em; color: red" v-if="$attrs.errors.password">{{$attrs.errors.password}}</p>
+                  <input type="email" name="email" id="email" placeholder="Email" v-model="form.email">
+                  <div class="form__errors" v-if="errors.email">
+                      <p>{{errors.email}}</p>
+                  </div>
+                </div>
+              </div>
+            </transition>
+            <transition name="fade-form-element">
+              <div class="form__item">
+                <div class="form__input form__required">
+                  <input type="password" name="password" id="password" placeholder="Change Password" v-model="form.password">
+                  <div class="form__errors" v-if="errors.password">
+                      <p>{{errors.password}}</p>
+                  </div>
+                </div>
+              </div>
+            </transition>
+            <transition name="fade-form-element" class="form-element">
+              <div class="form__item">
+                <div class="form__input form__required">
+                  <input type="password" name="confirm-password" id="confirm-password" placeholder="Confirm Password" v-model="form.confirm_password">
+                  <div class="form__errors" v-if="errors.confirm_password">
+                    <p id="error--text">{{errors.confirm_password}}</p>
+                  </div>
                 </div>
               </div>
             </transition>
@@ -101,6 +133,8 @@
 import AppLayout from "../../../Layouts/AppLayout";
 import {reactive} from "vue";
 import {Inertia} from "@inertiajs/inertia";
+import { InertiaProgress } from '@inertiajs/progress'
+InertiaProgress.init()
 
 export default {
   name: "UserEditForm.vue",
@@ -110,6 +144,15 @@ export default {
   props: {
     user_details: Object,
     roles: Array,
+    user: Object,
+    errors: Object,
+  },
+
+  data() {
+      return {
+        isLoading: false,
+        disabledButton: false,
+      }
   },
 
 
@@ -119,38 +162,52 @@ export default {
       firstname: props.user_details.firstname,
       lastname: props.user_details.lastname,
       email: props.user_details.email,
-      avatar: null,
+      avatar: props.user_details.profile_photo_path ? props.user_details.profile_photo_path : null,
       role_id: props.user_details.role_id,
       password: props.user_details.password,
+      confirm_password: null,
     })
 
-    function submitUpdate() {
+    function submitUserUpdate() {
       Inertia.post(route('user.update', {id: props.user_details.id}), form);
     }
 
-    return {form, submitUpdate}
+    return {form, submitUserUpdate}
   },
   methods: {
+    changeValue() {
+      this.isLoading = true;
+      setTimeout(this.removeSpinner, 15000)
+    },
+    removeSpinner() {
+      this.isLoading = false;
+    },
     selectFile(event) {
-  this.form.avatar = event.target.files[0];
-},
-    /*submitUpdate() {
-      const data = new FormData();
-      data.append('title', this.form.title);
-      data.append('firstname', this.form.firstname);
-      data.append('lastname', this.form.lastname);
-      data.append('email', this.form.email);
-      data.append('avatar', this.form.avatar);
-      data.append('role_id', this.form.role_id);
-      data.append('password', this.form.password);
-      this.$inertia.put(route('user.update',{ user: this.user_details.id }), data)
-    }*/
+      this.form.avatar = event.target.files[0];
+      // Set the preview profile image
+      let avatarFile = $("input[type=file]").get(0).files[0];
+      if(avatarFile) {
+        //console.log(avatarFile)
+        let reader = new FileReader();
+        reader.onload = function () {
+          $("#preview-previous-avatars").removeAttr("src")
 
+          $("#preview-avatar").attr("src", reader.result);
+        }
+        reader.readAsDataURL(avatarFile);
+      }
+    },
   },
 
 }
 </script>
 
 <style scoped>
+.user-edit-back-heading-space {
+  margin-left: 29em;
+}
+.upload--space {
+  margin-bottom: 1em;
+}
 
 </style>

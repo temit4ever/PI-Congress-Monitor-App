@@ -3,9 +3,22 @@
 \*------------------------------------*/
 
 .profile-image {
+    position: relative;
     margin-bottom: 2.5rem;
     width: 12.6rem;
+    height: 12.6rem;
     border-radius: 4.3rem;
+    overflow: hidden;
+
+    > img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        transform: translate(-50%, -50%);
+    }
 }
 
 .profile-link {
@@ -55,7 +68,7 @@
     }
 
     .profile__rankings {
-         display: flex;  
+         display: flex;
     }
 
     .profile__rankings-current {
@@ -71,11 +84,11 @@
             width: 5.3rem;
         }
     }
-    
+
     .profile__rankings-previous {
         display: flex;
         flex-wrap: wrap;
-        
+
         .profile__rankings-rank {
             width: 7.2rem;
         }
@@ -174,6 +187,7 @@
         left: 0;
         max-width: calc(100% - 1.6rem);
         min-width: 1.6rem;
+        width: 0;
         height: 100%;
         padding-right: 0.4rem;
         border-radius: 5rem;
@@ -205,4 +219,9 @@
         > select {
             width: auto;
         }
+    }
+    .profile__select--checkbox {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }

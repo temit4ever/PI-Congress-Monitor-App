@@ -22,6 +22,11 @@
     padding: 2rem 3rem 5rem;
 }
 
+.card--break-out {
+    margin-left: -5rem;
+    margin-right: -5rem;
+}
+
     .card--center {
         display: flex;
         flex-direction: column;
@@ -47,6 +52,10 @@
 
     .card__heading--margin {
         margin-bottom: 6rem;
+    }
+
+    .card__heading--no-margin {
+        margin-bottom: 0;
     }
 
     .card__heading--grid {
