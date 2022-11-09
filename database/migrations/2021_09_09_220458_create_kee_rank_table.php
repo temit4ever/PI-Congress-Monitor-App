@@ -14,7 +14,8 @@ class CreateKeeRankTable extends Migration
     public function up()
     {
       Schema::create('kee_rank', function (Blueprint $table) {
-        $table->integer('kee_id')->unsigned();
+          $table->increments('id');
+          $table->integer('kee_id')->unsigned();
         $table->integer('rank_id')->unsigned();
         $table->softDeletes();
         $table->timestamps();
