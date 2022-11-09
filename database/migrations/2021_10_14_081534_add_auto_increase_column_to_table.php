@@ -14,7 +14,6 @@ class AddAutoIncreaseColumnToTable extends Migration
     public function up()
     {
      Schema::table('kee_rank', function (Blueprint $table) {
-        $table->increments('id')->first();
       });
     }
 

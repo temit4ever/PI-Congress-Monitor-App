@@ -110,7 +110,9 @@ require('admin-lte’);
 
 Installing Image Intervention package to handle image manipulation
 ------------------------------------------------------------------
-php composer.phar require intervention/image
+php composer.phar require intervention/image or 
+composer require intervention/image
+
 
 In the providers array add the service providers for this package (config/app.php).
 - Intervention\Image\ImageServiceProvider::class
@@ -120,3 +122,8 @@ Add the facade of this package to the aliases array (config/app.php)
 
 To use it just past the below line at the top of the controller/ model you want to work with
 - Use Intervention\Image\Facades\Image;
+
+Installing the wisdom-diala/countrypkg-laravel
+____________________________________________________
+- Use the link below
+https://github.com/wisdom-diala/countrypkg-laravel
