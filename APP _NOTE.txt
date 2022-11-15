@@ -14,9 +14,6 @@ Jetstream : Provides authentication scaffolding.
 Jetstrap: Convert the tailwind css to bootstrap
 <Version 2.4>
 
-Admin-lte: Provide the Admin dashboard Scaffolding
-<Version 3.0>
-
 Intervention Image: Provide assisitance for image manipulation
 <Version 2.x>
 
