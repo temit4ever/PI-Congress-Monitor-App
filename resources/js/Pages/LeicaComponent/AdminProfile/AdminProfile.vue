@@ -15,9 +15,9 @@
           Current Admin Profile
         </h2>
         <div class="card__heading-button">
-          <a :href="route('profiles.edit', {id: admin_details.id})" class="button">
+          <Link :href="route('profiles.edit', {id: admin_details.id})" class="button">
             Edit Users
-          </a>
+          </Link>
         </div>
       </div>
       <div v-if="admin_details" class="card__inner">

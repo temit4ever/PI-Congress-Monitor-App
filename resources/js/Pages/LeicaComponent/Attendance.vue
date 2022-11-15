@@ -52,19 +52,19 @@
           <th class="no-border">
             <ul class="pagination-dots">
               <li class="pagination-dots__item" :class="{'is-active': pageNumber === 0}">
-                <a href="#" class="pagination-dots__link" @click=" pageSlider('0')">
+                <Link href="#" class="pagination-dots__link" @click=" pageSlider('0')">
                   1
-                </a>
+                </Link>
               </li>
               <li class="pagination-dots__item" :class="{'is-active': pageNumber === 1}">
-                <a href="#" class="pagination-dots__link" @click=" pageSlider('1')">
+                <Link href="#" class="pagination-dots__link" @click=" pageSlider('1')">
                   2
-                </a>
+                </Link>
               </li>
               <li class="pagination-dots__item" :class="{'is-active': pageNumber === 2}">
-                <a href="#" class="pagination-dots__link" @click=" pageSlider('2')">
+                <Link href="#" class="pagination-dots__link" @click=" pageSlider('2')">
                   3
-                </a>
+                </Link>
               </li>
             </ul>
           </th>
@@ -184,7 +184,7 @@ export default {
   components: {
     AppLayout,
     Icons,
-    Pagination
+    Pagination,
   },
   props: {
     user: Object,

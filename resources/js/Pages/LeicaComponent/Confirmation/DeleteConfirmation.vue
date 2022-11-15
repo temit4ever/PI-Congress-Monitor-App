@@ -52,15 +52,15 @@
               </p>
             </div>
             <div class="buttons-group">
-              <a :href="route(`${cancelPath}`)" class="button" @click="hideModal">
+              <Link :href="route(`${cancelPath}`)" class="button" @click="hideModal">
                 Cancel
-              </a>
-              <a :href="`${deletePath}${itemId}`" class="button button&#45;&#45;red" @click="hideModal()">
+              </Link>
+              <Link :href="`${deletePath}${itemId}`" class="button button&#45;&#45;red" @click="hideModal()">
                         <span class="button__icon">
                             <Icons icon="trash" />
                         </span>
                 Delete
-              </a>
+              </Link>
             </div>
           </div>
         </div>

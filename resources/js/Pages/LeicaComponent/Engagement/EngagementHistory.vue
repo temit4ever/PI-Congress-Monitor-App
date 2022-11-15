@@ -20,15 +20,15 @@
             <button onclick="window.history.back();" class="button button--small">
               Back
             </button>
-            <a :href="route().current('manage_ehistory.index', {id: kee_id}) ? route('manage_kee.show', {id: kee_id, eid: engagement.id}) :  route('kee.shows', {id: kee_id, eid: engagement.id})" class="button button--small">
+            <Link :href="route().current('manage_ehistory.index', {id: kee_id}) ? route('manage_kee.show', {id: kee_id, eid: engagement.id}) :  route('kee.shows', {id: kee_id, eid: engagement.id})" class="button button--small">
              Profile
-            </a>
-            <a :href="route().current('manage_ehistory.index', {id: kee_id}) ? route('manage_history.index', {id: kee_id, eid: engagement.id}) : route('history.index', {id: kee_id, eid: engagement.id})" class="button button--small">
+            </Link>
+            <Link :href="route().current('manage_ehistory.index', {id: kee_id}) ? route('manage_history.index', {id: kee_id, eid: engagement.id}) : route('history.index', {id: kee_id, eid: engagement.id})" class="button button--small">
               History
-            </a>
-            <a v-if="user.status !== 'member'" :href="route('schedule.create', {id: kee_id})" class="button button--small button--green">
+            </Link>
+            <Link v-if="user.status !== 'member'" :href="route('schedule.create', {id: kee_id})" class="button button--small button--green">
               Schedule
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -77,9 +77,9 @@
             </td>
             <td class="table__buttons">
               <div class="buttons-group">
-                <a :href="route().current('manage_ehistory.index') ? route('manage_engagement.show', {id: engagement.id}) : route('engagement.show', {id: engagement.id})" class="button button--small">
+                <Link :href="route().current('manage_ehistory.index') ? route('manage_engagement.show', {id: engagement.id}) : route('engagement.show', {id: engagement.id})" class="button button--small">
                   View
-                </a>
+                </Link>
               </div>
             </td>
           </tr>
@@ -139,9 +139,9 @@
             </td>
             <td class="table__buttons">
               <div class="buttons-group">
-                <a :href="route().current('manage_ehistory.index') ? route('manage_engagement.show', {id: engagement.id}) : route('engagement.show', {id: engagement.id})" class="button button--small">
+                <Link :href="route().current('manage_ehistory.index') ? route('manage_engagement.show', {id: engagement.id}) : route('engagement.show', {id: engagement.id})" class="button button--small">
                 View
-                </a>
+                </Link>
               </div>
             </td>
           </tr>

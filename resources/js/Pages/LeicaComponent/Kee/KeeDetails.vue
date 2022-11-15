@@ -17,21 +17,21 @@
             <button onclick="window.history.back();" class="button button--small">
               Back
             </button>
-            <a v-if="engagement || last_rank" :href="route().current('manage_kee.show') ? route('manage_ehistory.index', {id: kee.id, eid: engagement ? engagement.id : recent_rank.engagement_id}) : route('ehistory.index', {id: kee.id, eid: engagement ? engagement.id : recent_rank.engagement_id})" class="button button--small">
+            <Link v-if="engagement || last_rank" :href="route().current('manage_kee.show') ? route('manage_ehistory.index', {id: kee.id, eid: engagement ? engagement.id : recent_rank.engagement_id}) : route('ehistory.index', {id: kee.id, eid: engagement ? engagement.id : recent_rank.engagement_id})" class="button button--small">
                  Engagements
-            </a>
-            <a v-if="engagement" :href="route().current('manage_kee.show', {id: kee.id}) ? route('manage_history.index', {id: kee.id, eid: engagement ? engagement.id : recent_rank.engagement_id}) : route('history.index', {id: kee.id, eid: engagement ? engagement.id : recent_rank.engagement_id})" class="button button--small">
+            </Link>
+            <Link v-if="engagement" :href="route().current('manage_kee.show', {id: kee.id}) ? route('manage_history.index', {id: kee.id, eid: engagement ? engagement.id : recent_rank.engagement_id}) : route('history.index', {id: kee.id, eid: engagement ? engagement.id : recent_rank.engagement_id})" class="button button--small">
               History
-            </a>
-            <a v-else :href="route().current('manage_kee.show', {id: kee.id}) ? route('manage_history.index', {id: kee.id, eid: engagement ? engagement.id : ''}) : route('history.index', {id: kee.id, eid: engagement ? engagement.id : ''})" class="button button--small">
+            </Link>
+            <Link v-else :href="route().current('manage_kee.show', {id: kee.id}) ? route('manage_history.index', {id: kee.id, eid: engagement ? engagement.id : ''}) : route('history.index', {id: kee.id, eid: engagement ? engagement.id : ''})" class="button button--small">
               History
-            </a>
+            </Link>
             <!--            <a :href="route('publication.index')" class="button button&#45;&#45;small">
                           Publications
                         </a>-->
-            <a v-if="user.status !== 'member'" :href="route().current('manage_kee.show', {id: kee.id}) ? route('manage_schedule.create', {id: kee.id}) : route('schedule.create', {id: kee.id})" class="button button--small button--green">
+            <Link v-if="user.status !== 'member'" :href="route().current('manage_kee.show', {id: kee.id}) ? route('manage_schedule.create', {id: kee.id}) : route('schedule.create', {id: kee.id})" class="button button--small button--green">
               Schedule
-            </a>
+            </Link>
           </div>
         </div>
       </div>

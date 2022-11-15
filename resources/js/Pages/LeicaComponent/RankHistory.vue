@@ -18,15 +18,15 @@
             <button onclick="window.history.back();" class="button button--small">
               Back
             </button>
-            <a :href="route().current('manage_history.index') ? route('manage_kee.show', {id: kee_id, eid: engagement_id}) : route('kee.shows', {id: kee_id, eid: engagement_id})" class="button button--small">
+            <Link :href="route().current('manage_history.index') ? route('manage_kee.show', {id: kee_id, eid: engagement_id}) : route('kee.shows', {id: kee_id, eid: engagement_id})" class="button button--small">
               Profile
-            </a>
-            <a v-if="engagement_id" :href="route().current('manage_history.index') ? route('manage_ehistory.index', {id: kee_id, eid: engagement_id ? engagement_id : ''}) : route('ehistory.index', {id: kee_id, eid: engagement_id ? engagement_id : ''})" class="button button--small">
+            </Link>
+            <Link v-if="engagement_id" :href="route().current('manage_history.index') ? route('manage_ehistory.index', {id: kee_id, eid: engagement_id ? engagement_id : ''}) : route('ehistory.index', {id: kee_id, eid: engagement_id ? engagement_id : ''})" class="button button--small">
               Engagements
-            </a>
-            <a v-if="user.status !== 'member'" :href="route().current('manage_history.index') ? route('manage_schedule.create', {id: kee_id}) : route('schedule.create', {id: kee_id})" class="button button--small button--green">
+            </Link>
+            <Link v-if="user.status !== 'member'" :href="route().current('manage_history.index') ? route('manage_schedule.create', {id: kee_id}) : route('schedule.create', {id: kee_id})" class="button button--small button--green">
               Schedule
-            </a>
+            </Link>
           </div>
         </div>
       </div>

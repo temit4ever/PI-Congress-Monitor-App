@@ -17,9 +17,9 @@
         <div class="card__heading-button">
             <div class="buttons-group">
                 <div class="cancel-heading">
-                    <a :href="route('user.index')" class="button button--margin">
+                    <Link :href="route('user.index')" class="button button--margin">
                         Cancel
-                    </a>
+                    </Link>
                 </div>
                 <form class="form" @submit.prevent="upload" method="POST" enctype="multipart/form-data">
                     <button type="submit" class="button">
@@ -49,10 +49,11 @@
 import AppLayout from "../../Layouts/AppLayout";
 import {reactive} from "vue";
 import {Inertia} from "@inertiajs/inertia";
+
 export default {
   name: "KeeUpload.vue",
   components: {
-    AppLayout
+    AppLayout,
   },
   props: {
     user: Object

@@ -12,9 +12,9 @@
         </h2>
         <div class="card__heading-button">
           <div class="button-group">
-            <a :href="route('manage_completed.index')" class="button">
+            <Link :href="route('manage_completed.index')" class="button">
               Back
-            </a>
+            </Link>
 <!--            <a :href="route('engagement.edit', {id: engagement.id})" class="button button&#45;&#45;green" v-if="user.role_id !== 3">
               Edit
             </a>-->
@@ -122,9 +122,9 @@
             </tr>
           </table>
           <span v-if="current_engagement.digital_link">
-          <a :href="`${current_engagement.digital_link}`" class="engagement-details__meeting-link" target="_blank">
+          <Link :href="`${current_engagement.digital_link}`" class="engagement-details__meeting-link" target="_blank">
           <img class="meeting-icon" src="../../../../images/icon-meeting.svg">Digital Meeting
-        </a>
+        </Link>
         </span>
         </div>
       </div>
@@ -196,9 +196,9 @@
               <div v-if="( keeRank.attendance === 'Yes' && keeRank.engagement_id === current_engagement.id)">Completed</div>
               <div v-else-if="keeRank.attendance === 'No'">Absent</div>
               <div v-else class="buttons-group">
-                <a :href="route('manage_rank.create', {id: keeRank.kee_id, eid: current_engagement.id})" class="button button--small">
+                <Link :href="route('manage_rank.create', {id: keeRank.kee_id, eid: current_engagement.id})" class="button button--small">
                   Evaluate
-                </a>
+                </Link>
               </div>
             </td>
           </tr>
@@ -213,6 +213,7 @@
 import AppLayout from "../../../Layouts/AppLayout";
 import Icons from "../../../Components/Icons";
 import moment from "moment";
+
 export default {
   name: "RankDetails.vue",
   components: {

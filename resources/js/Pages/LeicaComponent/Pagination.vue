@@ -1,17 +1,17 @@
 <template>
     <ul class="pagination" v-if="lastPage && lastPage != 1">
         <li class="pagination__item">
-            <a v-if="currentPage != 1" :href="`${firstPageUrl}`" class="pagination__link pagination__first">
+            <Link v-if="currentPage != 1" :href="`${firstPageUrl}`" class="pagination__link pagination__first">
                 First
-            </a>
+            </Link>
             <span v-else class="pagination__link pagination__first" disabled>
             First
             </span>
         </li>
         <li class="pagination__item">
-            <a v-if="currentPage != 1"  :href="`${prevPageUrl}`" class="pagination__link pagination__prev">
+            <Link v-if="currentPage != 1"  :href="`${prevPageUrl}`" class="pagination__link pagination__prev">
                 Previous
-            </a>
+            </Link>
             <span v-else :href="`${prevPageUrl}`" class="pagination__link pagination__prev" disabled>
                 Previous
             </span>
@@ -20,17 +20,17 @@
             <span>{{currentPage}}</span>/ {{lastPage}}
         </li>
         <li class="pagination__item">
-            <a v-if="currentPage != lastPage" :href="`${nextPageUrl}`" class="pagination__link pagination__next">
+            <Link v-if="currentPage != lastPage" :href="`${nextPageUrl}`" class="pagination__link pagination__next">
                 Next
-            </a>
+            </Link>
             <span v-else class="pagination__link pagination__next" disabled>
                 Next
             </span>
         </li>
         <li class="pagination__item">
-            <a v-if="currentPage != lastPage" :href="`${lastPageUrl}`" class="pagination__link pagination__last">
+            <Link v-if="currentPage != lastPage" :href="`${lastPageUrl}`" class="pagination__link pagination__last">
                 Last
-            </a>
+            </Link>
             <span v-else class="pagination__link pagination__last" disabled>
             Last
             </span>

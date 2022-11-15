@@ -122,9 +122,9 @@
           Upcoming Engagements
         </h2>
         <div class="card__heading-button" v-if="AuthUser.status !== 'member'">
-          <a :href="route('calendar.index')" class="button">
+          <Link :href="route('calendar.index')" class="button">
             Calendar
-          </a>
+          </Link>
         </div>
       </div>
       <table class="table">
@@ -183,15 +183,15 @@
             </td>
             <td class="table__buttons">
               <div class="buttons-group">
-                <a :href="route('engagement.show', {id: engagement.id})" class="button button--small">
+                <Link :href="route('engagement.show', {id: engagement.id})" class="button button--small">
                   View
-                </a>
-                <a :href="route('engagement.edit', {id: engagement.id})" class="button button--small button--green" v-if="AuthUser.status !== 'member'">
+                </Link>
+                <Link :href="route('engagement.edit', {id: engagement.id})" class="button button--small button--green" v-if="AuthUser.status !== 'member'">
                                 <span class="button__icon">
                                     <Icons icon="edit" />
                                 </span>
                   Edit
-                </a>
+                </Link>
                 <button @click="deleteRow(engagement.id)" type="button" class="button button--small button--red" v-if="AuthUser.status !== 'member'">
                     <span class="button__icon">
                         <Icons icon="trash" />
@@ -244,9 +244,9 @@
           Recently Evaluated KEEs
         </h2>
         <div class="card__heading-button">
-          <a :href="route('classification.index')" class="button" v-if="AuthUser.status !== 'member'">
+          <Link :href="route('classification.index')" class="button" v-if="AuthUser.status !== 'member'">
             KEE Relationship
-          </a>
+          </Link>
         </div>
       </div>
       <table class="table">
@@ -315,12 +315,12 @@
             </td>
             <td class="table__buttons">
               <div class="buttons-group">
-                <a :href="route('kee.shows', {id: detail.id, eid: detail.eid})" class="button button--small">
+                <Link :href="route('kee.shows', {id: detail.id, eid: detail.eid})" class="button button--small">
                   View
-                </a>
-                <a :href="route('schedule.create', {id: detail.id})" class="button button--small button--green" v-if="AuthUser.status !== 'member'">
+                </Link>
+                <Link :href="route('schedule.create', {id: detail.id})" class="button button--small button--green" v-if="AuthUser.status !== 'member'">
                   Schedule
-                </a>
+                </Link>
               </div>
             </td>
           </tr>
@@ -369,7 +369,7 @@ export default {
     Icons,
     EngagementForm,
     DeleteModal,
-    Pagination
+    Pagination,
   },
   props: {
     AuthUser: Object,

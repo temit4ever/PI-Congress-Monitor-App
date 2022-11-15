@@ -11,64 +11,64 @@
     <div>
       <ul class="manage-buttons">
         <li class="manage-buttons__item">
-          <a :href="route('role.index')" class="manage-buttons__link">
+          <Link :href="route('role.index')" class="manage-buttons__link">
             <div class="manage-buttons__inner">
               <div class="manage-buttons__icon">
                 <Icons icon="star" />
               </div>
               Roles
             </div>
-          </a>
+          </Link>
         </li>
         <li class="manage-buttons__item">
-          <a :href="route('permission.index')" class="manage-buttons__link">
+          <Link :href="route('permission.index')" class="manage-buttons__link">
             <div class="manage-buttons__inner">
               <div class="manage-buttons__icon">
                 <Icons icon="lock" />
               </div>
               Permissions
             </div>
-          </a>
+          </Link>
         </li>
         <li class="manage-buttons__item">
-          <a :href="route('user.index')" class="manage-buttons__link">
+          <Link :href="route('user.index')" class="manage-buttons__link">
             <div class="manage-buttons__inner">
               <div class="manage-buttons__icon">
                 <Icons icon="person" />
               </div>
               Users
             </div>
-          </a>
+          </Link>
         </li>
         <li class="manage-buttons__item">
-          <a :href="route('manage_kee.index')" class="manage-buttons__link">
+          <Link :href="route('manage_kee.index')" class="manage-buttons__link">
             <div class="manage-buttons__inner">
               <div class="manage-buttons__icon">
                 <Icons icon="person" />
               </div>
               KEEs
             </div>
-          </a>
+          </Link>
         </li>
         <li class="manage-buttons__item">
-          <a :href="route('manage_engagement.index')" class="manage-buttons__link">
+          <Link :href="route('manage_engagement.index')" class="manage-buttons__link">
             <div class="manage-buttons__inner">
               <div class="manage-buttons__icon">
                 <Icons icon="location" />
               </div>
               Engagement
             </div>
-          </a>
+          </Link>
         </li>
         <li class="manage-buttons__item">
-          <a :href="route('manage_completed.index')" class="manage-buttons__link">
+          <Link :href="route('manage_completed.index')" class="manage-buttons__link">
             <div class="manage-buttons__inner">
               <div class="manage-buttons__icon">
                 <Icons icon="sliders" />
               </div>
               Evaluate
             </div>
-          </a>
+          </Link>
         </li>
       </ul>
     </div>
@@ -82,7 +82,7 @@ export default {
   name: "Manage.vue",
   components: {
     AppLayout,
-    Icons
+    Icons,
   },
   props: {
     user: Object,

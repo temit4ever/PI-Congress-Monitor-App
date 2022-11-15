@@ -22,15 +22,15 @@
           </div>
         </div>
         <div class="form__item" v-if="!this.hideUpload">
-          <a :href="route('keeupload.create')" class="button">
+          <Link :href="route('keeupload.create')" class="button">
             Upload Kee
-          </a>
+          </Link>
         </div>
         <!--searching based on kee names and location-->
         <div class="card__heading-button add-kee-button">
-          <a :href="route('user.create')" class="button button--small">
+          <Link :href="route('user.create')" class="button button--small">
             Add new user
-          </a>
+          </Link>
         </div>
       </div>
       <table class="table">
@@ -69,15 +69,15 @@
           </td>
           <td class="table__buttons">
             <div class="buttons-group">
-              <a :href="route('user.show', {id: user.id})" class="button button--small">
+              <Link :href="route('user.show', {id: user.id})" class="button button--small">
                 View
-              </a>
-              <a :href="route('user.edit', {id: user.id})" class="button button--small button--green">
+              </Link>
+              <Link :href="route('user.edit', {id: user.id})" class="button button--small button--green">
                 <span class="button__icon">
                     <Icons icon="edit" />
                 </span>
                 Edit
-              </a>
+              </Link>
               <button @click="deleteRow(user.id)" type="button" class="button button--small button--red">
                 <span class="button__icon">
                     <Icons icon="trash" />
@@ -133,7 +133,7 @@ export default {
     Icons,
     AppLayout,
     Pagination,
-    DeleteModal
+    DeleteModal,
   },
   props: {
     user_lists: Array,

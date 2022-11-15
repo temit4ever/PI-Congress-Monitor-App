@@ -18,9 +18,9 @@
           {{ name }} has been edited
         </p>
       </div>
-      <a :href="route().current('engagement.show') ? route('calendar.index') : route(`${redirect}`)" class="button">
+      <Link :href="route().current('engagement.show') ? route('calendar.index') : route(`${redirect}`)" class="button">
           Return
-      </a>
+      </Link>
     </div>
   </div>
     </app-layout>
