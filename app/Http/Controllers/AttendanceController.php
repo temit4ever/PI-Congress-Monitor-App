@@ -45,7 +45,7 @@ class AttendanceController extends Controller
       $collection = $kee_engagement_planned_current->get();
 
       // Removed any record with an empty KEE id as a result of the join
-      $collection->map(function (&$item)  use ($collection) {
+      $collection->map(function ($item)  use ($collection) {
         if ($item->kee_id != null) {
           $item->kee_id = $item->id;
         }

@@ -28,7 +28,6 @@ class KeeController extends Controller
    */
   public function index(Request $request, Kee $kee): \Inertia\Response
   {
-   // dd($request->query());
     $is_super_admin = auth()->user()->hasRole('super-admin');
     $is_admin = auth()->user()->hasRole('admin');
     if (Auth::check() && ($is_admin || $is_super_admin)) {

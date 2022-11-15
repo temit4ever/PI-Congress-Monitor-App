@@ -5,7 +5,6 @@
 /storage/*.key
 /vendor
 /shared
-/container
 APP _NOTE.txt
 docker-compose.yml
 .env

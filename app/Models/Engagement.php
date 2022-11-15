@@ -13,6 +13,18 @@ class Engagement extends Model
     use SoftDeletes;
 
   protected $hidden = ['deleted_at', 'pivot'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d h:i:s',
+        'updated_at' => 'datetime:Y-m-d h:i:s',
+        'deleted_at' => 'datetime:Y-m-d h:i:s',
+        'calendar_date' => 'datetime:Y-m-d'
+    ];
   protected $fillable = [
     'platform',
     'kee_id',

@@ -50,9 +50,9 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->get('/dashboard', function () {
-
-  // Get all the engagement in current quarter
-  $quarterly_engagement = Engagement::where(DB::raw('QUARTER(calendar_date)'), Carbon::now()->quarter)->get();
+  // Get all the current quarter engagement in the current year
+  $quarterly_engagement = Engagement::where(DB::raw('QUARTER(calendar_date)'), Carbon::now()->quarter)
+      ->where(DB::raw('YEAR(calendar_date)'), Carbon::now()->year)->get();
 
   // Get all the engagement in current year
   $yearly_engagement = Engagement::where(DB::raw('YEAR(calendar_date)'), Carbon::now()->year)->get();
@@ -65,7 +65,7 @@ Route::middleware('auth')->get('/dashboard', function () {
   $plan_engagement_quarter = count(Engagement::whereDate('calendar_date', '>=', Carbon::now())
     ->where(DB::raw('QUARTER(calendar_date)'), Carbon::now()->quarter)->get());
 
-  //dd($plan_engagement_quarter);
+  //dd($quarterly_engagement);
   //$quarter_name = '';
   switch (Carbon::now()->quarter) {
     case '1' :
@@ -90,7 +90,8 @@ Route::middleware('auth')->get('/dashboard', function () {
     ->where(DB::raw('YEAR(created_at)'), Carbon::now()->year)->get();
   $yearly_attendance = count( $yearly_rank->pluck('engagement_id')->unique());
 
-  // Get all the rank of kee that attend specific engagement in current quarter
+  //dd($yearly_rank);
+  // Get all the rank of kee that attend specific engagement in current quarter and year
   $attended_engagement_quarterly = Rank::whereIn('engagement_id', $engagement_id_quarterly)->where('attendance', '=', 'Yes')
     ->where('is_evaluated', '=', '1')->where(DB::raw('YEAR(created_at)'), Carbon::now()->year)->get();
   $attended_engagement_quarterly = count( $attended_engagement_quarterly->pluck('engagement_id')->unique());

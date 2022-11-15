@@ -129,7 +129,11 @@ class EngagementController extends Controller
         ]);
 
         $engagement->save();
-        $engagement->assignKee($ids);
+
+        // This and the assignKee() method does the same thing. Assign respective kee id and engagement id in the engagement_kee table
+        $engagement->kees()->sync($ids);
+
+        //$engagement->assignKee($ids);
 
         return Inertia::render('LeicaComponent/Engagement/EngagementAddEditConfirmation',
         [
@@ -254,7 +258,8 @@ class EngagementController extends Controller
    */
     public function update(Request $request)
     {
-      $is_super_admin = auth()->user()->hasRole('super-admin');
+
+        $is_super_admin = auth()->user()->hasRole('super-admin');
       $is_admin = auth()->user()->hasRole('admin');
       if ($is_admin || $is_super_admin) {
         $ids = [];
