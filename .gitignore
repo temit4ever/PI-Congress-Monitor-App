@@ -6,7 +6,6 @@
 /vendor
 /shared
 APP _NOTE.txt
-docker-compose.yml
 .env
 .env.backup
 .phpunit.result.cache
