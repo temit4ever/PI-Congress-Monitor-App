@@ -36,9 +36,9 @@
           </div>
         </div>
         <div class="card__heading-button button--small" v-if="user.role_id !== 3">
-          <a :href="route().current('manage_engagement.index') ? route('manage_engagement.create') : route('engagement.create') " class="button">
+          <Link :href="route().current('manage_engagement.index') ? route('manage_engagement.create') : route('engagement.create') " class="button">
           Add
-          </a>
+          </Link>
         </div>
       </div>
       <table class="table">
@@ -85,17 +85,17 @@
             </td>
             <td class="table__buttons">
               <div class="buttons-group">
-                <a :href="route().current('manage_engagement.index') ? route('manage_engagement.show', {id: engagement.id}) : route('engagement.show', {id: engagement.id})" class="button button--small">
+                <Link :href="route().current('manage_engagement.index') ? route('manage_engagement.show', {id: engagement.id}) : route('engagement.show', {id: engagement.id})" class="button button--small">
                   View
-                </a>
-                <a v-if="user.status !== 'member' && !this.dateCompare(engagement.calendar_date)" class="button button--small button--green"
+                </Link>
+                <Link v-if="user.status !== 'member' && !this.dateCompare(engagement.calendar_date)" class="button button--small button--green"
                    :href="route().current('manage_engagement.index') ? route('manage_engagement.edit', {id: engagement.id}) :
                    route('engagement.edit', {id: engagement.id})">
                                 <span class="button__icon">
                                     <Icons icon="edit" />
                                 </span>
                   Edit
-                </a>
+                </Link>
                 <a v-else class="button button--small button--green isDisabled"
                    href="#">
                   <span class="button__icon">

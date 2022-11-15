@@ -154,7 +154,6 @@
 </template>
 
 <script>
-import { Link } from '@inertiajs/inertia-vue3'
 import AppLayout from "../../Layouts/AppLayout";
 import Icons from "../../Components/Icons";
 import moment from "moment";
@@ -168,7 +167,6 @@ export default {
     Icons,
     DeleteModal,
     Pagination,
-    Link
   },
   props: {
     engagement_calendar: Array,

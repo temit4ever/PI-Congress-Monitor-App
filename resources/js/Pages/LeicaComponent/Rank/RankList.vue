@@ -60,12 +60,12 @@ Ranklist
             </td>
             <td class="table__buttons">
               <div class="buttons-group">
-                <a :href="route('manage_rank.show', {id: engagement.id})" class="button button--small button--green">
+                <Link :href="route('manage_rank.show', {id: engagement.id})" class="button button--small button--green">
                                 <span class="button__icon">
                                     <Icons icon="edit" />
                                 </span>
                   Evaluate
-                </a>
+                </Link>
                 <button @click="deleteRow(engagement.id)" type="button" class="button button--small button--red">
                     <span class="button__icon">
                         <Icons icon="trash" />

@@ -88,13 +88,13 @@
               </td>
               <td class="table__buttons">
                 <div class="buttons-group">
-                  <a :href="route('kee.shows', {id: rank.id ? rank.id : '', eid: rank.eid ? rank.eid : ''})" class="button button--small">
+                  <Link :href="route('kee.shows', {id: rank.id ? rank.id : '', eid: rank.eid ? rank.eid : ''})" class="button button--small">
                     View
-                  </a>
-                  <a  v-if="user.status !== 'member'" :href="route('schedule.create', {id: rank.id ? rank.id : '' })"
+                  </Link>
+                  <Link  v-if="user.status !== 'member'" :href="route('schedule.create', {id: rank.id ? rank.id : '' })"
                      class="button button--small button--green">
                     Schedule
-                  </a>
+                  </Link>
                 </div>
               </td>
             </tr>
@@ -125,9 +125,9 @@
 import AppLayout from "../../Layouts/AppLayout";
 import Icons from '@/Components/Icons.vue';
 import Pagination from "./Pagination";
-import _ from "lodash";
 import {computed, reactive} from 'vue';
 import {Inertia} from "@inertiajs/inertia";
+
 
 export default {
   name: "Classification.vue",

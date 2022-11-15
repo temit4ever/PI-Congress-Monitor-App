@@ -95,9 +95,9 @@
               </td>
             </tr>
           </table>
-          <a :href="`${kee.h1_link}`" class="button" target="_blank" rel="noreferrer noopener">
+          <Link :href="`${kee.h1_link}`" class="button" target="_blank" rel="noreferrer noopener">
             H1 Profile Link
-          </a>
+          </Link>
         </div>
         <div class="profile-grid__second">
           <form>
@@ -990,9 +990,10 @@
 import AppLayout from "../../../Layouts/AppLayout";
 import {reactive} from "vue";
 import {Inertia} from "@inertiajs/inertia";
+
 export default {
   name: "RankForm.vue",
-  components: {AppLayout,},
+  components: {AppLayout},
   props: {
     kee: Object,
     errors: Object,

@@ -16,9 +16,9 @@
         </h2>
         <div class="card__heading-button">
           <span v-if="user_details">
-          <a :href="route('user.edit', {id: user_details.id})" class="button button--small">
+          <Link :href="route('user.edit', {id: user_details.id})" class="button button--small">
             Edit User
-          </a>
+          </Link>
           </span>
         </div>
       </div>

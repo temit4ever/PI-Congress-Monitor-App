@@ -18,11 +18,11 @@
             <button onclick="window.history.back();" class="button button--small">
               Back
             </button>
-            <a v-if="!dateCompare(current_engagement.calendar_date) && user.role_id !== 3" :href="route().current('manage_engagement.show')
+            <Link v-if="!dateCompare(current_engagement.calendar_date) && user.role_id !== 3" :href="route().current('manage_engagement.show')
              ? route('manage_engagement.edit', {id: current_engagement.id}) : route('engagement.edit', {id: current_engagement.id})"
                class="button button--small button--green">
               Edit
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -126,9 +126,9 @@
             </tr>
           </table>
           <span v-if="current_engagement.digital_link">
-          <a :href="`${current_engagement.digital_link}`" class="engagement-details__meeting-link" target="_blank">
+          <Link :href="`${current_engagement.digital_link}`" class="engagement-details__meeting-link" target="_blank">
           <img class="meeting-icon" src="../../../../images/icon-meeting.svg">Digital Meeting
-        </a>
+        </Link>
         </span>
         </div>
       </div>
@@ -198,10 +198,10 @@
             </td>
             <td class="table__buttons">
               <div class="buttons-group">
-                <a :href="route().current('manage_engagement.show') ? route('manage_kee.show', {id: keeRank.kee_id, eid: current_engagement.id}) :
+                <Link :href="route().current('manage_engagement.show') ? route('manage_kee.show', {id: keeRank.kee_id, eid: current_engagement.id}) :
                 route('kee.shows', {id: keeRank.kee_id, eid: current_engagement.id})" class="button button--small">
                   View
-                </a>
+                </Link>
               </div>
             </td>
           </tr>
@@ -221,7 +221,7 @@ export default {
   components: {
     AppLayout,
     Icons,
-    moment
+    moment,
   },
   props: {
     engagement: Object,

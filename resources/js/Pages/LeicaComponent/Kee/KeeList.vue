@@ -128,7 +128,6 @@
   </app-layout>
 </template>
 <script>
-import { Link } from '@inertiajs/inertia-vue3';
 import AppLayout from "../../../Layouts/AppLayout";
 import _ from "lodash";
 import Pagination from "../Pagination";
@@ -141,7 +140,6 @@ export default {
     AppLayout,
     Icons,
     DeleteModal,
-    Link
   },
   props: {
     kee_lists: Array,
