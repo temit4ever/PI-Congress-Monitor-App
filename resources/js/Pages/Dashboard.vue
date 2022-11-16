@@ -398,6 +398,15 @@ export default {
     }
   },
 
+ /* created() {
+    axios.get(route('get_countries'))
+        .then( function(response) {
+          console.log(response.data);
+          localStorage.setItem('countries', response.data);
+          console.log(JSON.stringify(localStorage.getItem('countries')));
+        });
+  },*/
+
   methods: {
     deleteRow(link) {
       this.deleteId = link

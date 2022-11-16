@@ -129,11 +129,11 @@ Route::middleware('auth')->get('/dashboard', function () {
     $id = $data['country_id'];
     if (!empty($id)) {
       $country = Country::find($id);
+
       if (empty($country)) {
         return Inertia::render('LeicaComponent/Error/ItemNotFound');
       }
       $country_details[$id] = $country['short_name'];
-      $engagement_id[] = $data['id'];
     }
   }
   // Get the list of all grade 'A' Ranks in a year based on specific engagement.
@@ -314,5 +314,7 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
   //Route::resource('/manage/admin/profile', AdminProfileController::class);
 
   Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+
+  Route::get('/countries', [\App\Http\Controllers\CountryController::class, 'getCountries'])->name('get_countries');
 
 });

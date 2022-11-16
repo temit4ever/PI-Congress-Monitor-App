@@ -8,9 +8,9 @@
                 <div class="site-sidebar__sticky">
                     <div class="site-sidebar__main">
                         <h1 class="site-logo">
-                            <a :href="route('dashboard')">
+                            <Link :href="route('dashboard')">
                                 <img src="../../images/logo.svg">
-                            </a>
+                            </Link>
                         </h1>
                       <nav class="site-nav" v-if="authUser">
                             <ul>
@@ -228,7 +228,7 @@ import JetDropdown from '@/Jetstream/Dropdown.vue'
 import JetDropdownLink from '@/Jetstream/DropdownLink.vue'
 import JetNavLink from '@/Jetstream/NavLink.vue'
 import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink.vue'
-import {Head, Link, usePage} from '@inertiajs/inertia-vue3';
+import {Head, usePage} from '@inertiajs/inertia-vue3';
 import Icons from '@/Components/Icons.vue';
 import _ from "lodash";
 import  { reactive } from 'vue'
@@ -248,7 +248,6 @@ export default {
             JetDropdownLink,
             JetNavLink,
             JetResponsiveNavLink,
-            Link,
             Icons,
         },
         emits: ['testMethod'],
